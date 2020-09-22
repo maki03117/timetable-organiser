@@ -49,8 +49,8 @@ import AddTeacher from "./components/teachers/add-teacher";
 import Teacher from "./components/teachers/teacher";
 
 import FeeList from "./components/fees/fee-list";
-import AddFee from "./components/fees/add-fee";
-import Fee from "./components/fees/fee";
+// import AddFee from "./components/fees/add-fee";
+// import Fee from "./components/fees/fee";
 
 import LogIn from "./components/login";
 
@@ -313,8 +313,8 @@ export default class App extends React.PureComponent {
               <Route exact path="/subjects/:id" component={Subject} />
 
               <Route exact path="/fees" component={FeeList} />
-              <Route exact path="/add-fee" component={AddFee} />
-              <Route exact path="/fees/:id" component={Fee} />
+              {/* <Route exact path="/add-fee" component={AddFee} />
+              <Route exact path="/fees/:id" component={Fee} /> */}
             </Grid>
       
         </Switch>
