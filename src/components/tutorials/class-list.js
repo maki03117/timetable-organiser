@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import SearchIcon from '@material-ui/icons/Search';
+
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
