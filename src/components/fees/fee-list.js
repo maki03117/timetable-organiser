@@ -1,30 +1,15 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import StudentDataService from "../../services/student.service";
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-
 import MaterialTable from 'material-table';
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import { withStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, MuiPickersUtilsProvider, } from "@material-ui/pickers";
 
@@ -32,34 +17,13 @@ import { formatDateToString, weekday, roomNums } from '../../resources';
 
 const styles = theme => ({
   root: {
-    //width: '1000px',
     margin: '20px'
   },
   sub: {
     '& > *': {
       margin: theme.spacing(1),
     },
-  },
-  li: {
-    width: '500px',
-  },
-  table: {
-    minWidth: 650,
-  },
-  search: {
-    position: 'relative',
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-    marginLeft: '40px'
-  },
+  }
 })
 
 const columns = [
@@ -83,8 +47,6 @@ const columnsOfClasses = [
   { title: 'Fee', field: 'fee' }
 ];
 
-
-
 function renameKey ( obj ) {
   var start = new Date(obj.startDate);
   var end = new Date(obj.endDate);
@@ -98,8 +60,6 @@ function renameKey ( obj ) {
 }
 
 function findFee(tutorial) {
-  //console.log(student);
-  //alert(student.id);
   var fee;
   if (tutorial.grade <= 'Y9') {
     fee = {
@@ -117,17 +77,11 @@ function findFee(tutorial) {
   return fee[tutorial.type];
 }
 
-
 class FeeList extends Component {
   constructor(props) {
     super(props);
-    //this.onChangeSearchGrade = this.onChangeSearchGrade.bind(this);
     this.retrieveStudents = this.retrieveStudents.bind(this);
-    //this.refreshList = this.refreshList.bind(this);
     this.setActiveStudent = this.setActiveStudent.bind(this);
-    //this.removeAllStudents = this.removeAllStudents.bind(this);
-    //this.searchGrade = this.searchGrade.bind(this);
-
     this.handleClose = this.handleClose.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.findTotalFee = this.findTotalFee.bind(this);
@@ -135,14 +89,11 @@ class FeeList extends Component {
     this.state = {
       students: [],
       currentStudent: null,
-      //currentIndex: -1,
-      //searchGrade: "",
       open: false,
       selectedRow: 0,
       date: new Date(),
       tutorials: null,
       message: "",
-      show: false,
       week: "",
       month: ""
     };
@@ -165,31 +116,14 @@ class FeeList extends Component {
       });
   }
 
-  // refreshList() {
-  //   this.retrieveStudents();
-  //   this.setState({
-  //       currentStudent: null,
-  //       currentIndex: -1
-  //   });
-  // }
-
   setActiveStudent(student) {
-    // if (rows.length > 1) {
-    //   this.setState({
-    //     open: true,
-    //     message: "Please select ONE student!"
-    //   });
-    // }
     const newS = student;
-    //this.getStudent(newS.id)
-    newS.tutorials.forEach( obj => renameKey( obj ) );
+    newS.tutorials.forEach( obj => renameKey(obj) );
     this.setState({
       currentStudent: newS,
       selectedRow: newS.id,
       tutorials: newS.tutorials
-      //currentIndex: index
     });
-    //console.log(this.state.selectedRow);
   }
 
   getStudent(id) {
@@ -212,11 +146,8 @@ class FeeList extends Component {
   }
 
   handleClick() {
-    //const student = this.currentStudent;
-    //console.log(this.findTotalFee());
     this.setState({
       open: true,
-      //message: this.findTotalFee()
     });
     this.findTotalFee();
   }
@@ -248,8 +179,6 @@ class FeeList extends Component {
   }
 
   findTotalFee() {
-  //console.log(student);
-  //alert(student.id);
   const arrOfOccurrenceDays = this.occurrenceDays();
 
   var fee;
@@ -266,14 +195,13 @@ class FeeList extends Component {
   } else {
     this.setState({
       message: "Unknown Fees",
-      //message: this.findTotalFee()
     });
     return;
   }
   const tutorials = this.state.tutorials;
-  console.log(tutorials);
   var weeklyTotal = 0;
   var monthlyTotal = 0;
+
   // Calculate the total of fees for a week
   for (var i = 0; i < tutorials.length; i++) {
     weeklyTotal += fee[tutorials[i].type];
@@ -283,24 +211,16 @@ class FeeList extends Component {
     open: true,
     week: "£"+weeklyTotal,
     month: "£"+monthlyTotal
-    //message: this.findTotalFee()
   });
   return;
 }
 
   render() {
     const { classes } = this.props;
-    const { students, currentStudent, currentIndex, tutorials, open, date, message } = this.state;
+    const { students, currentStudent, tutorials, open, date } = this.state;
 
     return (
       <>
-      {/* <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="flex-start"
-        className={classes.root}
-      > */}
       <Grid
         container
         item
@@ -309,41 +229,22 @@ class FeeList extends Component {
         alignItems="flex-start"
         className={classes.root}
       >
-
         <Grid item className={classes.sub}>
-          {/* <Grid item> */}
-            <MaterialTable
-              title="Select Student"
-              columns={columns}
-              data={students}
-              onRowClick={((evt, selectedRow) => this.setActiveStudent(selectedRow))}
-              options={{
-                grouping: true,
-                pageSize: 5,
-                //selection: true,
-                rowStyle: rowData => ({
-                  backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
-                })
-              }}
-              //onRowClick={(event, rowData) => this.setActiveStudent(rowData, 0)}
-              //onSelectionChange={(rows, rowData)=>this.setActiveStudent(rows, rowData, 0)}
-            />
-            {/* {currentStudent ? 
-            (
-              <Button variant="contained" color="primary" size="small" onClick={this.removeAllTutorials}>
-                Calculate fee
-              </Button>
-            ):(
-              <>
-              </>
-            )} */}
-            {/* <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
-              <Alert severity="error" onClose={this.handleClose}>{this.state.message}</Alert>
-            </Snackbar> */}
-          {/* </Grid> */}
+          <MaterialTable
+            title="Select Student"
+            columns={columns}
+            data={students}
+            onRowClick={((evt, selectedRow) => this.setActiveStudent(selectedRow))}
+            options={{
+              grouping: true,
+              pageSize: 5,
+              rowStyle: rowData => ({
+                backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
+              })
+            }}
+          />
         </Grid>
         {tutorials ? (
-
           <Grid 
             item
             justify="center"
@@ -353,46 +254,23 @@ class FeeList extends Component {
               title="Classes"
               columns={columnsOfClasses}
               data={tutorials}
-              //onRowClick={((evt, selectedRow) => this.setActiveTutorial(selectedRow))}
               options={{
                 grouping: true,
                 pageSize: 5,
-                //selection: true
-                // rowStyle: rowData => ({
-                //   backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
-                // })
               }}
-              //onSelectionChange={(rows, rowData)=>this.setActiveTutorial(rows, rowData, 0)}
             />
-            {/* <div className={classes.sub}>  */}
-              {/* <Button 
-                variant="contained" 
-                color="primary" 
-                size="small" 
-                fullWidth={true} 
-                onClick={this.handleClick}
-              >
-                Calculate fee
-              </Button> */}
-            {/* </div> */}
-            
           </Grid>
-
         ):(
-          <>
-          </>
+          <></>
         )}
-        
       </Grid>
-      
-      {/* </Grid> */}
+
       <Grid
         container
-
         direction="row"
         justify="center"
         alignItems="flex-start"
-        //className={classes.root}
+        style={{marginBottom: "20px"}}
       >
       <Grid item>
         <Paper>
@@ -404,7 +282,6 @@ class FeeList extends Component {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
               autoOk
-              //disabled
               disableToolbar={true}
               orientation="landscape"
               variant="static"
@@ -425,8 +302,7 @@ class FeeList extends Component {
             Calculate fee
           </Button>
         ): (
-          <>
-          </>
+          <></>
         )}
       </Grid>
         
@@ -436,12 +312,6 @@ class FeeList extends Component {
           <List
             component="nav"
             aria-labelledby="nested-list-subheader"
-            // subheader={
-            //   <ListSubheader component="div" id="nested-list-subheader">
-            //     Nested List Items
-            //   </ListSubheader>
-            // }
-            //className={classes.root}
           >
             <ListSubheader component="div" id="nested-list-subheader">
               Weekly Total Fee For {currentStudent.name}
@@ -455,32 +325,11 @@ class FeeList extends Component {
             <ListItem>
               <ListItemText primary={this.state.month} />
             </ListItem>
-            {/* <Box bgcolor="info.main" color="info.contrastText" p={2}>
-
-              <Typography variant="h6" gutterBottom styles={{margin: "10px"}}>
-                Weekly Total Fee For {currentStudent.name}:
-              </Typography>
-              
-              <Typography variant="body1" display="block" gutterBottom>
-                £{this.state.week}
-
-              </Typography>
-
-              <Typography variant="h6" gutterBottom styles={{margin: "10px"}}>
-                Monthly Total Fee For {currentStudent.name}:
-
-              </Typography>
-              <Typography variant="body1" display="block" gutterBottom>
-                £{this.state.month}
-
-              </Typography>
-            </Box> */}
             </List>
           </Paper>
         </Grid>
       ):(
-        <>
-        </>
+        <></>
       )}
       </Grid>
       </>

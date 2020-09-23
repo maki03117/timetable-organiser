@@ -5,18 +5,13 @@ import StudentDataService from "../../services/student.service";
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
-
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
+import { withStyles } from '@material-ui/core/styles';
 
 import { grades } from '../../resources';
 
@@ -47,7 +42,7 @@ class AddStudent extends Component {
     this.onChangeNotes = this.onChangeNotes.bind(this);
     this.saveStudent = this.saveStudent.bind(this);
     this.newStudent = this.newStudent.bind(this);
-    //this.handleChange = this.handleChange.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.state = {
       id: null,
@@ -58,38 +53,45 @@ class AddStudent extends Component {
       notes: "",
 
       value: '',
-      submitted: false
+      submitted: false,
+      open: false,
+      message: ""
     };
   }
   
   onChangeName(e) {
+    const name = e.target.value;
     this.setState({
-      name: e.target.value
+      name: name
     });
   }
 
   onChangeGrade(e) {
+    const grade = e.target.value;
     this.setState({
-      grade: e.target.value,
-      value: e.target.value
+      grade: grade,
+      value: grade
     });
   }
 
   onChangePhoneNum(e) {
+    const phoneNum = e.target.value;
     this.setState({
-      phoneNum: e.target.value
+      phoneNum: phoneNum
     });
   }
 
   onChangeAddress(e) {
+    const address = e.target.value;
     this.setState({
-      address: e.target.value
+      address: address
     });
   }
 
   onChangeNotes(e) {
+    const notes = e.target.value;
     this.setState({
-      notes: e.target.value
+      notes: notes
     });
   }
 
@@ -112,7 +114,9 @@ class AddStudent extends Component {
           address: response.data.address,
           notes: response.data.notes,
 
-          submitted: true
+          submitted: true,
+          open: true,
+          message: "Submitted Successfully!"
         });
         console.log(response.data);
       })
@@ -130,19 +134,22 @@ class AddStudent extends Component {
       address:  "",
       notes: "",
 
-      submitted: false
+      value: '',
+      submitted: false,
+      open: false,
+      message: ""
     });
   } 
 
-  // handleChange(event) {
-  //   this.setState({
-  //     value: event.target.value
-  //   });
-  // };
+  handleClose() {
+    this.setState({
+      open: false
+    });
+  };
 
   render() {
     const { classes } = this.props;
-    const { value } = this.state;
+    const { value, open } = this.state;
     
     return (
       <div className={classes.root}>
@@ -156,7 +163,6 @@ class AddStudent extends Component {
           <Link
             to={"/Students"}
             style={{ textDecoration: 'none', color: 'white' }}
-            //className="badge badge-warning"
           >
             <Button variant="outlined" size="small">
               Go Back
@@ -175,16 +181,8 @@ class AddStudent extends Component {
                   value={this.state.name}
                   onChange={this.onChangeName}
                 />
-                {/* <InputLabel htmlFor="student-name">Student Name</InputLabel>
-                <Input 
-                  id="student-name" 
-                  aria-describedby="my-helper-text" 
-                  value={this.state.name}
-                  onChange={this.onChangeName}
-                  
-                  fullWidth={true}
-                /> */}
               </FormControl>
+
               <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Grade</InputLabel>
                 <Select
@@ -215,16 +213,8 @@ class AddStudent extends Component {
                   value={this.state.phoneNum}
                   onChange={this.onChangePhoneNum}
                 />
-                {/* <InputLabel htmlFor="Student-input">Student Phone Number</InputLabel>
-                <Input 
-                  id="Student-input" 
-                  aria-describedby="my-helper-text" 
-                  value={this.state.phoneNum}
-                  onChange={this.onChangePhoneNum}
-                  
-                  fullWidth={true}
-                /> */}
               </FormControl>
+
               <FormControl style={{width: '500px'}}>
                 <TextField
                   id="subject-address" 
@@ -232,26 +222,9 @@ class AddStudent extends Component {
                   value={this.state.address}
                   onChange={this.onChangeAddress}
                 />
-                {/* <InputLabel htmlFor="Student-input">Student Address</InputLabel>
-                <Input 
-                  id="Student-input" 
-                  aria-describedby="my-helper-text" 
-                  value={this.state.address}
-                  onChange={this.onChangeAddress}
-                  
-                  fullWidth={true}
-                /> */}
               </FormControl>
+
               <FormControl style={{width: '500px'}}>
-                {/* <InputLabel htmlFor="Student-input">Anything to note about the sutdent?</InputLabel>
-                <Input 
-                  id="Student-input" 
-                  aria-describedby="my-helper-text" 
-                  value={this.state.notes}
-                  onChange={this.onChangeNotes}
-                  
-                  fullWidth={true}
-                /> */}
                 <TextField
                   id="student-notes"
                   label="Notes"
@@ -262,22 +235,20 @@ class AddStudent extends Component {
                   onChange={this.onChangeNotes}
                   variant="outlined"
                   margin="normal"
-
-                  // fullWidth={true}
                 />
               </FormControl>
-                <Grid
-                  className={classes.sub}
-                >
-                  <Button style={{textAlign: 'right', paddingRight: '10px'}} variant="contained" color="primary" size="small" onClick={this.saveStudent}>
-                    Submit
-                  </Button>
-                </Grid>
 
+              <Grid
+                className={classes.sub}
+              >
+                <Button style={{textAlign: 'right', paddingRight: '10px'}} variant="contained" color="primary" size="small" onClick={this.saveStudent}>
+                  Submit
+                </Button>
+              </Grid>
             </Grid>
           </Paper>
-          
         </Grid>
+        
         {this.state.submitted ? (
           <div style={{width:'300px'}} >
             <div style={{marginButtom:'10px'}}>
