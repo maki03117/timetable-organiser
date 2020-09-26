@@ -9,6 +9,7 @@ import Input from '@material-ui/core/Input';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import Paper from '@material-ui/core/Paper';
+
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -57,9 +58,8 @@ class AddSubject extends Component {
   }
 
   saveSubject() {
-    const name = e.target.value;
     var data = {
-      name: name
+      name: this.state.name
     };
 
     SubjectDataService.create(data)
