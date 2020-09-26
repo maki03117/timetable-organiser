@@ -2,17 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import TutorialDataService from "../../services/tutorial.service";
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
 import MaterialTable from 'material-table';
@@ -28,27 +20,7 @@ const styles = theme => ({
     '& > *': {
       margin: theme.spacing(1),
     },
-  },
-  li: {
-    width: '500px',
-  },
-  table: {
-    minWidth: 650,
-  },
-  search: {
-    position: 'relative',
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-    marginLeft: '40px'
-  },
+  }
 })
 
 function renameKey ( obj ) {
@@ -78,20 +50,16 @@ const columns = [
 class TutorialList extends Component {
   constructor(props) {
     super(props);
-    this.onChangeSearchName = this.onChangeSearchName.bind(this);
     this.retrieveTutorials = this.retrieveTutorials.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveTutorial = this.setActiveTutorial.bind(this);
     this.removeAllTutorials = this.removeAllTutorials.bind(this);
-    //this.searchName = this.searchName.bind(this);
 
     this.state = {
-        tutorials: [],
-        currentTutorial: null,
-        currentIndex: -1,
-        searchName: "",
-        open: false,
-        selectedRow: 0,
+      tutorials: [],
+      currentTutorial: null,
+      open: false,
+      selectedRow: 0,
     };
   }
 
@@ -99,20 +67,12 @@ class TutorialList extends Component {
     this.retrieveTutorials();
   }
 
-  onChangeSearchName(e) {
-    const searchName = e.target.value;
-
-    this.setState({
-      searchName: searchName
-    });
-  }
-
   retrieveTutorials() {
     TutorialDataService.getAll()
       .then(response => {
         response.data.forEach( obj => renameKey( obj ) );
         this.setState({
-            tutorials: response.data
+          tutorials: response.data
         });
         console.log(response.data);
       })
@@ -124,25 +84,16 @@ class TutorialList extends Component {
   refreshList() {
     this.retrieveTutorials();
     this.setState({
-        currentTutorial: null,
-        currentIndex: -1
+      currentTutorial: null
     });
   }
 
   setActiveTutorial(tutorial) {
-    // if (rows.length > 1) {
-    //   this.setState({
-    //     open: true,
-    //     message: "Please select ONE tutorial!"
-    //   });
-    // }
     this.setState({
       currentTutorial: tutorial,
       selectedRow: tutorial.id
-      //currentIndex: index
     });
   }
-
 
   removeAllTutorials() {
     TutorialDataService.deleteAll()
@@ -155,22 +106,9 @@ class TutorialList extends Component {
       });
   }
 
-//   searchName() {
-//     TutorialDataService.findByName(this.state.searchName)
-//       .then(response => {
-//         this.setState({
-//           Tutorials: response.data
-//         });
-//         console.log(response.data);
-//       })
-//       .catch(e => {
-//         console.log(e);
-//       });
-//   }
-
   render() {
     const { classes } = this.props;
-    const { tutorials, currentTutorial, currentIndex, searchName } = this.state;
+    const { tutorials, currentTutorial } = this.state;
 
     return (
       <Grid
@@ -191,13 +129,10 @@ class TutorialList extends Component {
                 options={{
                   grouping: true,
                   pageSize: 10,
-                  //selection: true
                   rowStyle: rowData => ({
                     backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
                   })
                 }}
-                //onSelectionChange={(rows, rowData)=>this.setActiveTutorial(rows, rowData, 0)}
-                
               />
             </Grid>
           </Grid>
@@ -228,7 +163,7 @@ class TutorialList extends Component {
             </Button>
           </Link>
         </div>
-
+        
       </Grid>
     );
   }

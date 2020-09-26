@@ -8,7 +8,6 @@ import TeacherDataService from "../../services/teacher.service";
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import Paper from '@material-ui/core/Paper';
@@ -21,8 +20,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
-
 import MaterialTable from 'material-table';
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -33,7 +30,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-import { grades, rooms, types } from '../../resources';
+import { grades, types } from '../../resources';
 
 const columns = [
   { title: 'Name', field: 'name' },
@@ -101,11 +98,9 @@ class AddTutorial extends Component {
       type: "",
       roomNum: 0,
       subjectId: 0,
-      studentId: 0, //-------------------------------------------------------------->
       teacherId: 0,
       notes: "",
       
-      selectedDate: new Date(),
       subjects: [],
       teachers: [],
       students: [],
@@ -114,13 +109,10 @@ class AddTutorial extends Component {
       valueRoom: null,
       valueSubject: null,
       valueTeacher: null,
-      valueStudent: 0,
       numRows: 0,
       studentIdsArr: [],
 
       open: false,
-      searchGrade: '',
-      limit: 0,
       addingStudent: true,
       submitted: false,
       selectedRow: null
@@ -137,7 +129,7 @@ class AddTutorial extends Component {
     SubjectDataService.getAll()
       .then(response => {
         this.setState({
-            subjects: response.data
+          subjects: response.data
         });
         console.log(response.data);
       })
@@ -150,7 +142,7 @@ class AddTutorial extends Component {
     StudentDataService.getAll()
       .then(response => {
         this.setState({
-            students: response.data
+          students: response.data
         });
         console.log(response.data);
       })
@@ -163,7 +155,7 @@ class AddTutorial extends Component {
     TeacherDataService.getAll()
       .then(response => {
         this.setState({
-            teachers: response.data
+          teachers: response.data
         });
         console.log(response.data);
       })
@@ -172,83 +164,93 @@ class AddTutorial extends Component {
       });
 }
 
-
-
   onChangeStartDate(date) {
+    const start = date;
+
     this.setState({
-      startDate: date
+      startDate: start
     });
   }
 
   onChangeEndDate(date) {
+    const end = date;
+
     this.setState({
-      endDate: date
+      endDate: end
     });
   }
 
   onChangeGrade(e) {
+    const grade = e.target.value;
+
     this.setState({
-      grade: e.target.value,
-      valueGrade: e.target.value
+      grade: grade,
+      valueGrade: grade
     });
   }
 
   onChangeType(e) {
+    const type = e.target.value;
+
     this.setState({
-      type: e.target.value,
-      valueType: e.target.value
+      type: type,
+      valueType: type
     });
   }
 
   onChangeRoomNum(e) {
+    const room = e.target.value;
+
     this.setState({
-      roomNum: e.target.value,
-      valueRoom: e.target.value
+      roomNum: room,
+      valueRoom: room
     });
   }
 
   onChangeSubject(e) {
+    const subject = e.target.value;
+
     this.setState({
-      subjectId: e.target.value,
-      valueSubject: e.target.value
+      subjectId: subject,
+      valueSubject: subject
     });
   }
 
   onChangeTeacher(e) {
+    const teacher = e.target.value;
+
     this.setState({
-      teacherId: e.target.value,
-      valueTeacher: e.target.value
+      teacherId: teacher,
+      valueTeacher: teacher
     });
-    //alert(e.target.value)
   }
 
   onChangeNotes(e) {
+    const notes = e.target.value;
+
     this.setState({
-      notes: e.target.value
+      notes: notes
     });
   }
 
   handleSelectionChange(rowData) {
     this.state.studentIdsArr.push(rowData.id);
-    alert("tableId: " + rowData.tableData.id + "studentId: " + rowData.id )
+    
     this.setState({
-      //studentIdsArr: this.state.studentIdsArr,
       numRows: 1,
       selectedRow: rowData.tableData.id
     });
   }
 
   handleSelectionsChange(rowData, rows) {
-    //alert("length: " + rows.length)
     this.state.studentIdsArr.push(rowData.id);
+
     this.setState({
-      //studentIdsArr: tempArr,
       numRows: rows.length
     });
   }
 
   onChangeStudent() {
-    //alert("length: " + this.state.numRows)
     if (!this.state.numRows){
       this.setState({
         open: true,
@@ -259,7 +261,6 @@ class AddTutorial extends Component {
 
     var data;
     for (var i = 0; i < this.state.numRows; i++) {
-      //alert("id: " + this.state.studentIdsArr[i])
       data = {
         id: this.state.id,
         studentId: this.state.studentIdsArr[i]
@@ -281,12 +282,6 @@ class AddTutorial extends Component {
             message: "Make sure to fill out all above!"
           });
         });
-
-      this.setState({
-        studentId: this.state.studentIdsArr[i],
-        //valueStudent: e.target.value,
-        //searchGrade: ''
-      });
     }
   }
 
@@ -305,11 +300,8 @@ class AddTutorial extends Component {
       teacherId: this.state.teacherId
     };
 
-    alert("startDate: " + data.startDate + "\nendDate: " + data.endDate + "\ngrade: " + data.grade + "\ntype: " + data.type + "\nroom: " + data.roomNum + "\nsubjectId: "+data.subjectId + "\nteacherId: " + data.teacherId);
-
     TutorialDataService.create(data)
       .then(response => {
-
         this.setState({
           id: response.data.id,
           startDate: response.data.startDate,
@@ -349,7 +341,6 @@ class AddTutorial extends Component {
         });
       })
       .catch(e => {
-
         console.log(e);
         this.setState({
           message: "Make sure to fill out all above!",
@@ -367,23 +358,19 @@ class AddTutorial extends Component {
       type: "",
       roomNum: 0,
       subjectId: 0,
-      studentId: 0, //-------------------------------------------------------------->
       teacherId: 0,
       notes: "",
 
-      selectedDate: new Date(),
       valueGrade: '',
       valueType: '',
       valueRoom: null,
       valueSubject: null,
       valueTeacher: null,
-      valueStudent: 0,
       numRows: 0,
       message: '',
       studentIdsArr: [],
 
       open: false,
-      searchGrade: '',
       addingStudent: false,
       submitted: false
     });
@@ -406,7 +393,6 @@ class AddTutorial extends Component {
       valueType, 
       valueRoom, 
       valueTeacher, 
-      valueStudent, 
       open, 
       addingStudent, 
       startDate,
@@ -417,7 +403,7 @@ class AddTutorial extends Component {
         <Grid
           container
           direction="column"
-          justify="flex-start"
+          justify="center"
           alignItems="flex-start"
           className={classes.sub}
         >
@@ -567,17 +553,6 @@ class AddTutorial extends Component {
                 />
               </FormControl>
               
-              {/* <div
-                className={classes.sub}
-              >
-                <Button variant="contained" color="primary" size="small" onClick={this.saveTutorial}>
-                  Proceed to Adding Student
-                </Button>
-                <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
-                  <Alert severity="error" onClose={this.handleClose}>{this.state.message}</Alert>
-                </Snackbar>
-              </div> */}
-
             </Grid>
           </Paper>
           
@@ -585,14 +560,6 @@ class AddTutorial extends Component {
             <>
             {(valueType === 'Private') ? (
               <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
-                {/* <Typography 
-                  variant="overline" 
-                  display="block" 
-                  component="legend"
-                  style={{margin: '10px', marginBottom: '0'}}
-                >
-                  Select ONE student
-                </Typography>  */}
                 <div style={{ maxWidth: '100%' }}>
                   <MaterialTable
                     title="Select ONE student"
@@ -607,9 +574,6 @@ class AddTutorial extends Component {
                         backgroundColor: (this.state.selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF'
                       })
                     }}
-                    
-                    
-                    //onSelectionChange={(rows, rowData)=>this.handleSelectionsChange(rowData, rows)}
                   />
                 </div>
                 <Grid
@@ -621,58 +585,20 @@ class AddTutorial extends Component {
                 </Grid>
               </Paper>
             ) : (
-              // 1. Select the limit of class (how many pupil allowed in the class?)
-              // 2. Depending on 1. select students:
-                // 2.1 select the year of the student
-                // 2.2 filter, give the list of students of that year
-                <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
-                {/* <Typography 
-                  variant="overline" 
-                  display="block" 
-                  component="legend"
-                  style={{margin: '10px', marginBottom: '0'}}
-                >
-                  Type class pupil limit
-                </Typography>  */}
-                {/* <FormControl className={classes.formControl}>
-                  <TextField
-                    id="class-limit" 
-                    label="Maximum"
-                    type="number"
-                    InputLabelProps={{
-                      shrink: true,
+              <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
+                <div style={{ maxWidth: '100%' }}>
+                  <MaterialTable
+                    title="Select Students"
+                    columns={columns}
+                    data={students}
+                    options={{
+                      grouping: true,
+                      pageSize: 10,
+                      selection: true,
                     }}
-                    value={this.state.limit}
-                    onChange={this.onChangeLimit}
+                    onSelectionChange={(rows, rowData)=>this.handleSelectionsChange(rowData, rows)}
                   />
-                </FormControl> */}
-                  <div style={{ maxWidth: '100%' }}>
-                    <MaterialTable
-                      title="Select Students"
-                      columns={columns}
-                      data={students}
-                      options={{
-                        grouping: true,
-                        pageSize: 10,
-                        selection: true,
-                      }}
-                      onSelectionChange={(rows, rowData)=>this.handleSelectionsChange(rowData, rows)}
-                    />
-                  </div>
-                {/* <FormControl className={classes.formControl} style={{width: '200px'}}>
-                  <InputLabel id="demo-simple-select-label">Student</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="class-student"
-                    value={valueStudent} 
-                    onChange={this.onChangeStudent}
-                  >
-                    {students &&
-                    students.map((student, index) => (
-                      <MenuItem value={student.id} >{student.name}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl> */}
+                </div>
                 <Grid
                   className={classes.buttonStyle}
                 >
@@ -681,16 +607,11 @@ class AddTutorial extends Component {
                   </Button>
                 </Grid>
               </ Paper>
-              
             )}
             </>
-            
           ) : (
-            <>
-            {/* <Alert severity="warning" className={classes.sub}>Please select "Type" to proceed!</Alert> */}
-            </>
+            <></>
           )}
-              
         
         {this.state.submitted ? (
           <>
@@ -704,8 +625,7 @@ class AddTutorial extends Component {
           </div>
           </>
         ) : (
-          <>
-          </>
+          <></>
         )}
         </Grid>
       </div>

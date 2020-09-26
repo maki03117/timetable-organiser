@@ -30,21 +30,15 @@ const styles = theme => ({
 class SubjectList extends Component {
   constructor(props) {
     super(props);
-    //this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
-
     this.retrieveSubjects = this.retrieveSubjects.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveSubject = this.setActiveSubject.bind(this);
     this.removeAllSubjects = this.removeAllSubjects.bind(this);
 
-    //this.searchTitle = this.searchTitle.bind(this);
-
     this.state = {
         subjects: [],
         currentSubject: null,
-        currentIndex: -1,
-        //searchTitle: ""
-        selectedIndex: -1
+        currentIndex: -1
     };
   }
 
@@ -52,25 +46,17 @@ class SubjectList extends Component {
     this.retrieveSubjects();
   }
 
-//   onChangeSearchTitle(e) {
-//     const searchTitle = e.target.value;
-
-//     this.setState({
-//       searchTitle: searchTitle
-//     });
-//   }
-
   retrieveSubjects() {
     SubjectDataService.getAll()
-        .then(response => {
-          this.setState({
-              subjects: response.data
-          });
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
+      .then(response => {
+        this.setState({
+            subjects: response.data
         });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   refreshList() {
@@ -82,9 +68,11 @@ class SubjectList extends Component {
   }
 
   setActiveSubject(subject, index) {
+    const currentSubject = subject;
+    const currentInd = index;
     this.setState({
-      currentSubject: subject,
-      currentIndex: index
+      currentSubject: currentSubject,
+      currentIndex: currentInd
     });
   }
 
@@ -98,19 +86,6 @@ class SubjectList extends Component {
         console.log(e);
       });
   }
-
-//   searchTitle() {
-//     SubjectDataService.findByTitle(this.state.searchTitle)
-//       .then(response => {
-//         this.setState({
-//           Subjects: response.data
-//         });
-//         console.log(response.data);
-//       })
-//       .catch(e => {
-//         console.log(e);
-//       });
-//   }
 
   render() {
     const { classes } = this.props;
@@ -166,8 +141,7 @@ class SubjectList extends Component {
               <Button variant="contained" color="secondary" size="small">Edit</Button>
             </Link>
           ) : (
-            <>
-            </>
+            <></>
           )}
           <Button variant="contained" color="default" size="small" onClick={this.removeAllSubjects}>
             Remove All

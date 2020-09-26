@@ -13,13 +13,22 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
-    margin: '20px'
-  },
-  sub: {
-    '& > *': {
+    margin: '20px',
+    padding: '20px',
+    '& > * .MuiTextField-root': {
       margin: theme.spacing(1),
     },
-  }
+  },
+  sub: {
+    '& > * ': {
+      margin: theme.spacing(1),
+    },
+    padding: '5px',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 })
 
 class AddSubject extends Component {
@@ -28,24 +37,29 @@ class AddSubject extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.saveSubject = this.saveSubject.bind(this);
     this.newSubject = this.newSubject.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.state = {
       id: null,
       name: "",
 
-      submitted: false
+      submitted: false,
+      open: false,
+      message: ""
     };
   }
   
   onChangeName(e) {
+    const name = e.target.value;
     this.setState({
-      name: e.target.value
+      name: name
     });
   }
 
   saveSubject() {
+    const name = e.target.value;
     var data = {
-      name: this.state.name
+      name: name
     };
 
     SubjectDataService.create(data)
@@ -54,7 +68,9 @@ class AddSubject extends Component {
           id: response.data.id,
           name: response.data.name,
 
-          submitted: true
+          submitted: true,
+          open: true,
+          message: "Successfully submitted!"
         });
         console.log(response.data);
       })
@@ -72,8 +88,15 @@ class AddSubject extends Component {
     });
   } 
 
+  handleClose() {
+    this.setState({
+      open: false
+    });
+  };
+
   render() {
     const { classes } = this.props;
+    const {open} = this.state;
     
     return (
       <div className={classes.root}>
@@ -87,7 +110,6 @@ class AddSubject extends Component {
           <Link
             to={"/subjects"}
             style={{ textDecoration: 'none', color: 'white' }}
-            //className="badge badge-warning"
           >
             <Button variant="outlined" size="small">
               Go Back
@@ -110,19 +132,24 @@ class AddSubject extends Component {
                   fullWidth={true}
                 />
               </FormControl>
-              <div className={classes.sub}>
-                <Button style={{textAlign: 'right', paddingRight: '10px'}} variant="contained" color="primary" size="small" onClick={this.saveSubject}>
+              <Grid
+                className={classes.formControl}
+                style={{width: '100%'}}
+              >
+                <Button style={{float: 'right', marginRight: "20px", marginTop: "10px"}} variant="contained" color="primary" size="small" onClick={this.saveSubject}>
                   Submit
                 </Button>
-              </div>
+              </Grid>
             </Grid>
           </Paper>
           
         </Grid>
         {this.state.submitted ? (
           <div style={{width:'300px'}} className={classes.sub}>
-            <Alert severity="success">Submitted successfully!</Alert>
-            <Button variant="contained" onClick={this.newSubject}>
+            <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
+              <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
+            </Snackbar>
+            <Button variant="contained" size="small" onClick={this.newSubject}>
               Add More
             </Button>
           </div>

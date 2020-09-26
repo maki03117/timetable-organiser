@@ -4,7 +4,6 @@ import StudentDataService from "../../services/student.service";
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -18,14 +17,18 @@ import { grades } from '../../resources';
 
 const styles = theme => ({
   root: {
-     margin: '20px',
-     padding: '10px',
-  },
-  sub: {
-    '& > * ': {
-      margin: theme.spacing(1),
-    },
-  },
+    margin: '20px',
+    padding: '20px',
+    '& > * .MuiTextField-root': {
+     margin: theme.spacing(1),
+   },
+ },
+ sub: {
+   '& > * ': {
+     margin: theme.spacing(1),
+   },
+   padding: '5px',
+ },
   formControl: {
     minWidth: 120,
   },
@@ -39,9 +42,7 @@ class Student extends Component {
     this.onChangePhoneNum = this.onChangePhoneNum.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
     this.onChangeNotes = this.onChangeNotes.bind(this);
-    //this.onChangeDescription = this.onChangeDescription.bind(this);
     this.getStudent = this.getStudent.bind(this);
-    //this.updatePublished = this.updatePublished.bind(this);
     this.updateStudent = this.updateStudent.bind(this);
     this.deleteStudent = this.deleteStudent.bind(this);
 
@@ -161,6 +162,12 @@ class Student extends Component {
       });
   }
 
+  handleClose() {
+    this.setState({
+      done: false
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const { currentStudent, done } = this.state;
@@ -252,6 +259,7 @@ class Student extends Component {
                     onChange={this.onChangeAddress}
                   />
                 </FormControl>
+
                 <FormControl style={{width: '500px'}}>
                   <TextField
                     id="student-notes"
@@ -265,10 +273,9 @@ class Student extends Component {
                       shrink: true,
                     }}
                     onChange={this.onChangeNotes}
-
-                    // fullWidth={true}
                   />
                 </FormControl>
+
                 <div className={classes.sub} >
                   <Button variant="contained" color="secondary" size="small" onClick={this.updateStudent}> {/*className={classes.root}> */}
                     Update
@@ -276,12 +283,9 @@ class Student extends Component {
                   <Button variant="contained" color="default" size="small" onClick={this.deleteStudent}> {/*className={classes.root}> */}
                     Delete
                   </Button>
-                  {done ? (
-                    <Alert severity="success">{this.state.message}</Alert>
-                  ):(
-                    <>
-                    </>
-                  )}
+                  <Snackbar open={done} autoHideDuration={6000} onClose={this.handleClose}>
+                    <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
+                  </Snackbar>
                 </div>
               </Grid>
             </Paper>

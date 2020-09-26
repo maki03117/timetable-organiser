@@ -4,27 +4,25 @@ import TeacherDataService from "../../services/teacher.service";
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
-
-import { grades } from '../../resources';
 
 const styles = theme => ({
   root: {
-     margin: '20px',
-     padding: '10px',
+    margin: '20px',
+    padding: '20px',
+    '& > * .MuiTextField-root': {
+      margin: theme.spacing(1),
+    },
   },
   sub: {
     '& > * ': {
       margin: theme.spacing(1),
     },
+    padding: '5px',
   },
   formControl: {
     minWidth: 120,
@@ -38,11 +36,10 @@ class Teacher extends Component {
     this.onChangePhoneNum = this.onChangePhoneNum.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
     this.onChangeNotes = this.onChangeNotes.bind(this);
-    //this.onChangeDescription = this.onChangeDescription.bind(this);
     this.getTeacher = this.getTeacher.bind(this);
-    //this.updatePublished = this.updatePublished.bind(this);
     this.updateTeacher = this.updateTeacher.bind(this);
     this.deleteTeacher = this.deleteTeacher.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.state = {
       currentTeacher: {
@@ -129,7 +126,7 @@ class Teacher extends Component {
         console.log(response.data);
         this.setState({
           done: true,
-          message: "The teacher was updated successfully!"
+          message: "Teacher updated successfully!"
         });
       })
       .catch(e => {
@@ -147,6 +144,12 @@ class Teacher extends Component {
         console.log(e);
       });
   }
+
+  handleClose() {
+    this.setState({
+      done: false
+    });
+  };
 
   render() {
     const { classes } = this.props;
@@ -230,8 +233,6 @@ class Teacher extends Component {
                       shrink: true,
                     }}
                     onChange={this.onChangeNotes}
-
-                    // fullWidth={true}
                   />
                 </FormControl>
                 <div className={classes.sub} >
@@ -241,12 +242,9 @@ class Teacher extends Component {
                   <Button variant="contained" color="default" size="small" onClick={this.deleteTeacher}> {/*className={classes.root}> */}
                     Delete
                   </Button>
-                  {done ? (
-                    <Alert severity="success">{this.state.message}</Alert>
-                  ):(
-                    <>
-                    </>
-                  )}
+                  <Snackbar open={done} autoHideDuration={6000} onClose={this.handleClose}>
+                    <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
+                  </Snackbar>
                 </div>
               </Grid>
             </Paper>

@@ -1,12 +1,8 @@
 import React, { useState, useRef } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
 import Typography from '@material-ui/core/Typography';
@@ -81,30 +77,24 @@ const Login = (props) => {
     setMessage("");
     setLoading(true);
 
-    //form.current.validateAll();
-
-    // if (checkBtn.current.context._errors.length === 0) {
-      AuthService.login(username, password).then(
-        () => {
-          props.history.push("/view-calendar");
-          window.location.reload();
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-          
-          setOpen(true);
-          setLoading(false);
-          setMessage(resMessage);
-        }
-      );
-    // } else {
-    //   setLoading(false);
-    // }
+    AuthService.login(username, password).then(
+      () => {
+        props.history.push("/view-calendar");
+        window.location.reload();
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        
+        setOpen(true);
+        setLoading(false);
+        setMessage(resMessage);
+      }
+    );
   };
 
   const handleClose = () => {
@@ -117,10 +107,6 @@ const Login = (props) => {
       <CssBaseline />
       
        <div className={classes.paper}>
-       {/* <Avatar >
-          <LockOutlinedIcon />
-        </Avatar> */}
-        
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -153,10 +139,6 @@ const Login = (props) => {
             value={password}
             onChange={onChangePassword}
           />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
           <Button
             type="submit"
             fullWidth
@@ -175,18 +157,6 @@ const Login = (props) => {
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert severity="error" onClose={handleClose}>{message}</Alert>
           </Snackbar>
-          {/* <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid> */}
         </form>
 
       </div>

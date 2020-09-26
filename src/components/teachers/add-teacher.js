@@ -4,21 +4,12 @@ import TeacherDataService from "../../services/teacher.service";
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-
-import { grades } from '../../resources';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const styles = theme => ({
   root: {
@@ -46,7 +37,7 @@ class AddTeacher extends Component {
     this.onChangeNotes = this.onChangeNotes.bind(this);
     this.saveTeacher = this.saveTeacher.bind(this);
     this.newTeacher = this.newTeacher.bind(this);
-    //this.handleChange = this.handleChange.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.state = {
       id: null,
@@ -55,32 +46,41 @@ class AddTeacher extends Component {
       address:  "",
       notes: "",
 
-      value: '',
-      submitted: false
+      submitted: false,
+      open: false,
+      message: ""
     };
   }
   
   onChangeName(e) {
+    const name = e.target.value;
+
     this.setState({
-      name: e.target.value
+      name: name
     });
   }
 
   onChangePhoneNum(e) {
+    const phoneNum = e.target.value;
+
     this.setState({
-      phoneNum: e.target.value
+      phoneNum: phoneNum
     });
   }
 
   onChangeAddress(e) {
+    const address = e.target.value;
+
     this.setState({
-      address: e.target.value
+      address: address
     });
   }
 
   onChangeNotes(e) {
+    const notes = e.target.value;
+
     this.setState({
-      notes: e.target.value
+      notes: notes
     });
   }
 
@@ -101,7 +101,9 @@ class AddTeacher extends Component {
           address: response.data.address,
           notes: response.data.notes,
 
-          submitted: true
+          submitted: true,
+          open: true,
+          message: "Submitted Successfully!"
         });
         console.log(response.data);
       })
@@ -118,19 +120,21 @@ class AddTeacher extends Component {
       address:  "",
       notes: "",
 
-      submitted: false
+      submitted: false,
+      open: false,
+      message: ""
     });
   } 
 
-  // handleChange(event) {
-  //   this.setState({
-  //     value: event.target.value
-  //   });
-  // };
+  handleClose() {
+    this.setState({
+      open: false
+    });
+  };
 
   render() {
     const { classes } = this.props;
-    const { value } = this.state;
+    const { open } = this.state;
     
     return (
       <div className={classes.root}>
@@ -144,7 +148,6 @@ class AddTeacher extends Component {
           <Link
             to={"/teachers"}
             style={{ textDecoration: 'none', color: 'white' }}
-            //className="badge badge-warning"
           >
             <Button variant="outlined" size="small">
               Go Back
@@ -192,26 +195,26 @@ class AddTeacher extends Component {
                   onChange={this.onChangeNotes}
                   variant="outlined"
                   margin="normal"
-
-                  // fullWidth={true}
                 />
               </FormControl>
-                <Grid
-                  className={classes.sub}
-                >
-                  <Button style={{textAlign: 'right', paddingRight: '10px'}} variant="contained" color="primary" size="small" onClick={this.saveTeacher}>
-                    Submit
-                  </Button>
-                </Grid>
-
+              <Grid
+                className={classes.formControl}
+                style={{width: '100%'}}
+              >
+                <Button style={{float: 'right', marginRight: "15px"}} variant="contained" color="primary" size="small" onClick={this.saveTeacher}>
+                  Submit
+                </Button>
+              </Grid>
             </Grid>
           </Paper>
           
         </Grid>
         {this.state.submitted ? (
-          <div style={{width:'300px'}} className={classes.sub}>
-            <Alert severity="success" className={classes.sub}>Submitted successfully!</Alert>
-            <Button variant="contained" onClick={this.newTeacher}>
+          <div className={classes.formControl}>
+            <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
+              <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
+            </Snackbar>
+            <Button size="small" variant="contained" onClick={this.newTeacher}>
               Add More
             </Button>
           </div>

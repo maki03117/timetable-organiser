@@ -11,8 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -25,44 +23,24 @@ const styles = theme => ({
       margin: theme.spacing(1),
     },
   },
-  li: {
-    width: '500px',
-  },
   table: {
     minWidth: 650,
-  },
-  search: {
-    position: 'relative',
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-    marginLeft: '40px'
-  },
+  }
 })
 
 
 class TeacherList extends Component {
   constructor(props) {
     super(props);
-    this.onChangeSearchName = this.onChangeSearchName.bind(this);
     this.retrieveTeachers = this.retrieveTeachers.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveTeacher = this.setActiveTeacher.bind(this);
     this.removeAllTeachers = this.removeAllTeachers.bind(this);
-    //this.searchName = this.searchName.bind(this);
 
     this.state = {
-        teachers: [],
-        currentTeacher: null,
-        currentIndex: -1,
-        searchName: "",
+      teachers: [],
+      currentTeacher: null,
+      currentIndex: -1,
     };
   }
 
@@ -70,32 +48,24 @@ class TeacherList extends Component {
     this.retrieveTeachers();
   }
 
-  onChangeSearchName(e) {
-    const searchName = e.target.value;
-
-    this.setState({
-      searchName: searchName
-    });
-  }
-
   retrieveTeachers() {
     TeacherDataService.getAll()
-        .then(response => {
-          this.setState({
-              teachers: response.data
-          });
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
+      .then(response => {
+        this.setState({
+            teachers: response.data
         });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   refreshList() {
     this.retrieveTeachers();
     this.setState({
-        currentTeacher: null,
-        currentIndex: -1
+      currentTeacher: null,
+      currentIndex: -1
     });
   }
 
@@ -117,22 +87,9 @@ class TeacherList extends Component {
       });
   }
 
-//   searchName() {
-//     TeacherDataService.findByName(this.state.searchName)
-//       .then(response => {
-//         this.setState({
-//           Teachers: response.data
-//         });
-//         console.log(response.data);
-//       })
-//       .catch(e => {
-//         console.log(e);
-//       });
-//   }
-
   render() {
     const { classes } = this.props;
-    const { teachers, currentTeacher, currentIndex, searchName } = this.state;
+    const { teachers, currentTeacher, currentIndex } = this.state;
 
     return (
       <Grid
@@ -142,20 +99,6 @@ class TeacherList extends Component {
         alignItems="flex-start"
         className={classes.root}
       >
-        {/* <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <TextField
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-            value={searchName}
-            onChange={this.onChangeSearchName}
-          />
-        </div> */}
         <Paper>
           <Grid container>
             <Grid item>
@@ -171,20 +114,20 @@ class TeacherList extends Component {
                   </TableHead>
                   <TableBody>
                     {teachers &&
-                    teachers.map((teacher, index) => (
-                    <TableRow 
-                      hover
-                      selected={currentIndex === index}
-                      onClick={() => this.setActiveTeacher(teacher, index)}
-                      key={index}
-                    >
-                      <TableCell component="th" scope="Teacher">
-                        {teacher.name}
-                      </TableCell>
-                      <TableCell align="right">{teacher.phoneNum}</TableCell>
-                      <TableCell align="right">{teacher.address}</TableCell>
-                      <TableCell align="right">{teacher.notes}</TableCell>
-                    </TableRow>
+                      teachers.map((teacher, index) => (
+                      <TableRow 
+                        hover
+                        selected={currentIndex === index}
+                        onClick={() => this.setActiveTeacher(teacher, index)}
+                        key={index}
+                      >
+                        <TableCell component="th" scope="Teacher">
+                          {teacher.name}
+                        </TableCell>
+                        <TableCell align="right">{teacher.phoneNum}</TableCell>
+                        <TableCell align="right">{teacher.address}</TableCell>
+                        <TableCell align="right">{teacher.notes}</TableCell>
+                      </TableRow>
                     ))}
                   </TableBody>
                 </Table>
@@ -203,8 +146,7 @@ class TeacherList extends Component {
               <Button variant="contained" color="secondary" size="small">Edit</Button>
             </Link>
           ) : (
-            <>
-            </>
+            <></>
           )}
           <Button variant="contained" color="default" size="small" onClick={this.removeAllTeachers}> 
             Remove All

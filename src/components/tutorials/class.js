@@ -7,7 +7,6 @@ import StudentDataService from "../../services/student.service";
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -20,12 +19,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Box from '@material-ui/core/Box';
-
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import MaterialTable from 'material-table';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -86,8 +81,6 @@ function findCurrentStudents(array) {
   return str;
 }
 
-//let studentIdToBeRemoved = [];
-
 class Tutorial extends Component {
   constructor(props) {
     super(props);
@@ -98,10 +91,7 @@ class Tutorial extends Component {
     this.onChangeRoom = this.onChangeRoom.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
     this.onChangeNotes = this.onChangeNotes.bind(this);
-
-    //this.onChangeDescription = this.onChangeDescription.bind(this);
     this.getTutorial = this.getTutorial.bind(this);
-    //this.updatePublished = this.updatePublished.bind(this);
     this.updateTutorial = this.updateTutorial.bind(this);
     this.deleteTutorial = this.deleteTutorial.bind(this);
     this.handleSelectionChange = this.handleSelectionChange.bind(this);
@@ -146,16 +136,13 @@ class Tutorial extends Component {
     this.retrieveTeachers();
     this.retrieveStudents();
     this.getTutorial(this.props.match.params.id);
-    // this.setState({
-    //   selectedRow: this.state.currentTutorial.students[0].id
-    // });
   }
 
   retrieveSubjects() {
     SubjectDataService.getAll()
       .then(response => {
         this.setState({
-            subjects: response.data
+          subjects: response.data
         });
         console.log(response.data);
       })
@@ -168,7 +155,7 @@ class Tutorial extends Component {
     StudentDataService.getAll()
       .then(response => {
         this.setState({
-            students: response.data
+          students: response.data
         });
         console.log(response.data);
       })
@@ -181,7 +168,7 @@ class Tutorial extends Component {
     TeacherDataService.getAll()
       .then(response => {
         this.setState({
-            teachers: response.data
+          teachers: response.data
         });
         console.log(response.data);
       })
@@ -229,17 +216,19 @@ class Tutorial extends Component {
   }
 
   onChangeRoom(e) {
+    const room = e.target.value;
 
     this.setState(prevState => ({
       currentTutorial: {
         ...prevState.currentTutorial,
-        roomNum: e.target.value,
+        roomNum: room,
       }
     }));
   }
 
   onChangeType(e) {
     const type = e.target.value;
+
     this.setState(prevState => ({
       currentTutorial: {
         ...prevState.currentTutorial,
@@ -261,8 +250,7 @@ class Tutorial extends Component {
 
   handleSelectionChange(rowData) {
     var tempArr = [rowData.id];
-    //this.state.studentIdToBeAdded.push(rowData.id);
-    //alert("studentId: " + rowData.id )
+
     this.setState({
       studentIdToBeAdded: tempArr,
       selectedRow: rowData.id
@@ -270,9 +258,6 @@ class Tutorial extends Component {
   }
 
   handleSelectionsChange(rowData, rows) {
-    
-    //this.state.studentIdToBeAdded.push(rowData.id);
-    //alert("studentId: " + rowData.id )
     this.setState({
       selectedRows: rows
     });
@@ -283,21 +268,16 @@ class Tutorial extends Component {
       .then(response => {
         const start = new Date(response.data.startDate );
         const end = new Date(response.data.endDate );
-        //this.state.studentIdToBeRemoved.push(response.data.students[0].id)
         
-        //alert(typeof(this.state.studentIdToBeRemoved))
         var array = response.data.students;
         if (!Array.isArray(array) || !array.length) {
           this.setState({
             startDate: start,
             endDate: end,
-            currentTutorial: response.data,
-            //selectedRow: response.data.students[0].id,
-            //studentIdToBeRemoved: temp
+            currentTutorial: response.data
           });
         } else {
           if (response.data.type === "Private"){
-            //alert("PRIVATE")
             var temp = [array[0].id];
             this.setState({
               startDate: start,
@@ -310,9 +290,7 @@ class Tutorial extends Component {
             this.setState({
               startDate: start,
               endDate: end,
-              currentTutorial: response.data,
-              //selectedRow: response.data.students[0].id,
-              //studentIdToBeRemoved: temp
+              currentTutorial: response.data
             });
           }
           
@@ -332,8 +310,6 @@ class Tutorial extends Component {
 
     data["startDate"] = newStartDate;
     data["endDate"] = newEndDate;
-    
-    //alert("studentId to be removed: "+Array.isArray(this.state.studentIdToBeRemoved))
 
     console.log(this.state.currentTutorial.id + " " + this.state.studentIdToBeRemoved)
 
@@ -357,40 +333,12 @@ class Tutorial extends Component {
         data["studentIdsTobeAdded"] = this.state.studentIdToBeAdded;
       } else {
         if (Array.isArray(this.state.studentIdToBeAdded) && this.state.studentIdToBeAdded.length){
-          //alert("PRIVATE AND SWAP");
           data["studentIdsTobeRemoved"] = this.state.studentIdToBeRemoved;
           data["studentIdsTobeAdded"] = this.state.studentIdToBeAdded;
         }
       }
     }
 
-    // if (!Array.isArray(this.state.studentIdToBeRemoved) || !(this.state.studentIdToBeRemoved.length)) {
-    //   data["studentIdsTobeAdded"] = this.state.studentIdToBeAdded;
-    // } else {
-    //   if (this.state.currentTutorial.type === "Private"){
-    //     if (Array.isArray(this.state.studentIdToBeAdded) && this.state.studentIdToBeAdded.length){
-    //       //alert("PRIVATE AND SWAP");
-    //       data["studentIdsTobeRemoved"] = this.state.studentIdToBeRemoved;
-    //       data["studentIdsTobeAdded"] = this.state.studentIdToBeAdded;
-    //     }
-    //   } else {
-    //     alert("Group");
-    //     if (Array.isArray(this.state.studentsToBeAdded) && this.state.studentsToBeAdded.length){
-    //       var temp = this.state.studentsToBeAdded;
-    //       for (var i = 0; i < temp.length; i++){
-    //         this.state.studentIdToBeAdded.push(temp[i].id);
-    //       }
-    //       data["studentIdsTobeAdded"] = this.state.studentIdToBeAdded;
-    //     }
-    //     if (Array.isArray(this.state.studentsToBeRemoved) && this.state.studentsToBeRemoved.length){
-    //       var temp = this.state.studentsToBeRemoved;
-    //       for (var i = 0; i < temp.length; i++){
-    //         this.state.studentIdToBeRemoved.push(temp[i].id);
-    //       }
-    //       data["studentIdsTobeRemoved"] = this.state.studentIdToBeRemoved;
-    //     } 
-    //   }
-    // }
     TutorialDataService.update(
       this.state.currentTutorial.id,
       data
@@ -416,11 +364,6 @@ class Tutorial extends Component {
     TutorialDataService.delete(this.state.currentTutorial.id)
       .then(response => {
         console.log(response.data);
-        // TutorialDataService.deleteStudents(dataToBeDeleted)
-        // .then(response => {
-        //   console.log("Students deleted: "+response.data);
-        // })
-        //this.props.history.push('/tutorials')
         this.setState({
           goBack: true
         });
@@ -438,7 +381,6 @@ class Tutorial extends Component {
 
   addStudent() {
     var temp = this.state.selectedRows;
-    // temp.push(this.state.selectedRow);
     this.setState({
       studentsToBeAdded: temp
     });
@@ -446,7 +388,6 @@ class Tutorial extends Component {
 
   removeStudent() {
     var temp = this.state.selectedRows;
-    //temp.push(this.state.selectedRow);
     this.setState({
       studentsToBeRemoved: temp
     });
@@ -500,8 +441,6 @@ class Tutorial extends Component {
                     margin="normal"
                     id="startTime-picker"
                     label="Start Time"
-                    // type="datetime-local"
-                    // defaultValue={startDate}
                     value={startDate}
                     onChange={this.onChangeStartDate}
                     KeyboardButtonProps={{
@@ -606,8 +545,6 @@ class Tutorial extends Component {
                       shrink: true,
                     }}
                     onChange={this.onChangeNotes}
-
-                    // fullWidth={true}
                   />
                 </FormControl>
                 
@@ -632,87 +569,69 @@ class Tutorial extends Component {
                         options={{
                           grouping: true,
                           pageSize: 10,
-                          // selection: true,
-                          // selectionProps: rowData => ({
-                          //   disabled: rowData.name === 'Mehmet',
-                          // })
                           rowStyle: rowData => ({
                             backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
                           })
-
                         }}
-                        //onSelectionChange={(rows, rowData)=>this.handleSelectionChange(rowData, rows)}
                       />
                     </div>
-                    {/* <Grid
-                      className={classes.buttonStyle}
-                    >
-                      <Button variant="contained" color="primary" size="small" onClick={this.onChangeStudent}>
-                        Submit
-                      </Button>
-                    </Grid> */}
                   </Paper>
                 ) : (
-                    <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
-                      <List
-                        component="nav"
-                        aria-labelledby="nested-list-subheader"
-                        subheader={
-                          <>
-                          <Paper>
-                            <ListSubheader component="div" id="nested-list-subheader">
-                              Original: {findCurrentStudents(this.state.currentTutorial.students)}
-                              {/* Current Students: {currentTutorial.students[0][0].name} */}
-                            </ListSubheader>
-                          </Paper>
-                          <Paper>
-                            <ListSubheader component="div" id="nested-list-subheader">
-                              Students to remove: {findCurrentStudents(this.state.studentsToBeRemoved)}
-                            </ListSubheader>
-                          </Paper>
-                          <Paper>
-                            <ListSubheader component="div" id="nested-list-subheader">
-                              Students to add: {findCurrentStudents(this.state.studentsToBeAdded)}
-                            </ListSubheader>
-                          </Paper>
-                          </>
-                        }
-                        dense={true}
-                        styles={{padding: "10px", backgroundColor: "black"}}
-                        //className={classes.root}
-                      >
-                      </List>
-                      <div style={{ maxWidth: '100%' }}>
-                        <MaterialTable
-                          title="Select Students"
-                          columns={columns}
-                          data={students}
-                          //onRowClick={((evt, selectedRow) => this.handleSelectionsChange(selectedRow))}
-                          options={{
-                            grouping: true,
-                            pageSize: 10,
-                            selection: true,
-                            // rowStyle: rowData => ({
-                            //   backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
-                            // })
-                          }}
-                          onSelectionChange={(rows, rowData)=>this.handleSelectionsChange(rowData, rows)}
-                        />
-                      </div>
-                      <Grid
-                        container
-                        direction="row"
-                        justify="flex-end"
-                        className={classes.buttonStyle}
-                      >
-                        <Button variant="outlined" color="secondary" size="small" onClick={this.addStudent}>
-                          Add
-                        </Button>
-                        <Button variant="outlined" color="primary" size="small" onClick={this.removeStudent}>
-                          Remove
-                        </Button>
-                      </Grid>
-                    </ Paper>
+                  <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
+                    <List
+                      component="nav"
+                      aria-labelledby="nested-list-subheader"
+                      subheader={
+                        <>
+                        <Paper>
+                          <ListSubheader component="div" id="nested-list-subheader">
+                            Original: {findCurrentStudents(this.state.currentTutorial.students)}
+                            {/* Current Students: {currentTutorial.students[0][0].name} */}
+                          </ListSubheader>
+                        </Paper>
+                        <Paper>
+                          <ListSubheader component="div" id="nested-list-subheader">
+                            Students to remove: {findCurrentStudents(this.state.studentsToBeRemoved)}
+                          </ListSubheader>
+                        </Paper>
+                        <Paper>
+                          <ListSubheader component="div" id="nested-list-subheader">
+                            Students to add: {findCurrentStudents(this.state.studentsToBeAdded)}
+                          </ListSubheader>
+                        </Paper>
+                        </>
+                      }
+                      dense={true}
+                      styles={{padding: "10px", backgroundColor: "black"}}
+                    >
+                    </List>
+                    <div style={{ maxWidth: '100%' }}>
+                      <MaterialTable
+                        title="Select Students"
+                        columns={columns}
+                        data={students}
+                        options={{
+                          grouping: true,
+                          pageSize: 10,
+                          selection: true
+                        }}
+                        onSelectionChange={(rows, rowData)=>this.handleSelectionsChange(rowData, rows)}
+                      />
+                    </div>
+                    <Grid
+                      container
+                      direction="row"
+                      justify="flex-end"
+                      className={classes.buttonStyle}
+                    >
+                      <Button variant="outlined" color="secondary" size="small" onClick={this.addStudent}>
+                        Add
+                      </Button>
+                      <Button variant="outlined" color="primary" size="small" onClick={this.removeStudent}>
+                        Remove
+                      </Button>
+                    </Grid>
+                  </ Paper>
                 )}
                 </>
 
@@ -720,16 +639,15 @@ class Tutorial extends Component {
                   <Button variant="contained" color="secondary" size="small" onClick={this.updateTutorial}> {/*className={classes.root}> */}
                     Update
                   </Button>
-                    <Button variant="contained" color="default" size="small" onClick={this.deleteTutorial}> {/*className={classes.root}> */}
-                      Delete
-                    </Button>
+                  <Button variant="contained" color="default" size="small" onClick={this.deleteTutorial}> {/*className={classes.root}> */}
+                    Delete
+                  </Button>
                   {done ? (
                     <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
                       <Alert severity="success">{this.state.message}</Alert>
                     </Snackbar>
                   ):(
-                    <>
-                    </>
+                    <></>
                   )}
                 
                 </div>
@@ -744,8 +662,7 @@ class Tutorial extends Component {
         {this.state.goBack ? (
           <Redirect to="/tutorials" />
         ):(
-          <>
-          </>
+          <></>
         )}
       </div>
     );

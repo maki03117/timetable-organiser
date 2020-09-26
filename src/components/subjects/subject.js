@@ -4,31 +4,34 @@ import SubjectDataService from "../../services/subject.service";
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
-     margin: '20px'
-  },
-  sub: {
-    '& > *': {
+    margin: '20px',
+    padding: '20px',
+      '& > * .MuiTextField-root': {
       margin: theme.spacing(1),
     },
-  }
+  },
+  sub: {
+    '& > * ': {
+      margin: theme.spacing(1),
+    },
+    padding: '5px',
+  },
 })
 
 class Subject extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
-    //this.onChangeDescription = this.onChangeDescription.bind(this);
     this.getSubject = this.getSubject.bind(this);
-    //this.updatePublished = this.updatePublished.bind(this);
     this.updateSubject = this.updateSubject.bind(this);
     this.deleteSubject = this.deleteSubject.bind(this);
 
@@ -101,6 +104,12 @@ class Subject extends Component {
       });
   }
 
+  handleClose() {
+    this.setState({
+      done: false
+    });
+  }
+
   render() {
     const { classes } = this.props;
     const { currentSubject, done } = this.state;
@@ -138,7 +147,6 @@ class Subject extends Component {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    //value={currentSubject.name}
                     onChange={this.onChangeName}
                   />
                 </FormControl>
@@ -149,12 +157,9 @@ class Subject extends Component {
                   <Button variant="contained" color="default" size="small" onClick={this.deleteSubject}> {/*className={classes.root}> */}
                     Delete
                   </Button>
-                  {done ? (
-                    <Alert severity="success">{this.state.message}</Alert>
-                  ):(
-                    <>
-                    </>
-                  )}
+                  <Snackbar open={done} autoHideDuration={6000} onClose={this.handleClose}>
+                    <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
+                  </Snackbar>
                 </div>
               </Grid>
             </Paper>

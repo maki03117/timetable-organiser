@@ -1,20 +1,11 @@
 import React, { Component } from "react";
-import { createStore } from 'redux';
-import { Link } from "react-router-dom";
 import TutorialDataService from "../services/tutorial.service";
-import SubjectDataService from "../services/subject.service";
 import TeacherDataService from "../services/teacher.service";
 
-import { connect, Provider } from 'react-redux';
-
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Button from '@material-ui/core/Button';
-import classNames from 'clsx';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
@@ -32,14 +23,9 @@ import {
   WeekView,
   MonthView,
   Appointments,
-  AppointmentTooltip,
-  AppointmentForm,
   EditRecurrenceMenu,
-  DragDropProvider,
-  ConfirmationDialog,
   Toolbar,
   ViewSwitcher,
-  DateNavigator,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 import { appointments, rooms, students, test } from '../resources';
@@ -49,42 +35,19 @@ function renameKey ( obj ) {
 }
 
 
-//export const appointments = ;
-// const LOCATIONS = [1, 2, 3, 4, 5, 6, 7, 8];//['Room 1', 'Room 2', 'Room 3', 'Room 4', 'Room 5', 'Room 6', 'Room 7', 'Kitchen Room'];
-// const LOCATIONS_SHORT = [1, 2, 3, 4, 5, 6, 7, 8];
-
-const styles = ({ spacing, palette }) => ({
-   weekendCell: {
-     backgroundColor: fade(palette.action.disabledBackground, 0.04),
-     '&:hover': {
-       backgroundColor: fade(palette.action.disabledBackground, 0.04),
-     },
-     '&:focus': {
-       backgroundColor: fade(palette.action.disabledBackground, 0.04),
-     },
-   },
-   weekEnd: {
-     backgroundColor: fade(palette.action.disabledBackground, 0.06),
-   },
-  //  flexibleSpace: {
-  //    margin: '0 0 0 0',
-  //    display: 'flex',
-  //    alignItems: 'centre',
-  //    float: 'right',
-  //    //height: '1000px',
-  //  },
-   textField: {
-     width: '75px',
-     marginLeft: spacing(1),
-     marginTop: 0,
-     marginBottom: 0,
-     height: spacing(4.875),
-   },
-   title: {
+const styles = ({ palette }) => ({
+  weekendCell: {
+    backgroundColor: fade(palette.action.disabledBackground, 0.04),
+    '&:hover': {
+      backgroundColor: fade(palette.action.disabledBackground, 0.04),
+    },
+    '&:focus': {
+      backgroundColor: fade(palette.action.disabledBackground, 0.04),
+    },
+  },
+  title: {
     fontWeight: 'bold',
     overflow: 'auto',
-    //overflow: 'hidden',
-    //textOverflow: 'ellipsis',
     whiteSpace: 'normal',
   },
   textContainer: {
@@ -101,83 +64,27 @@ const styles = ({ spacing, palette }) => ({
   },
   text: {
     overflow: 'auto',
-    //wordWrap: '',
-    //textOverflow: 'ellipsis',
     whiteSpace: 'normal',
   },
   container: {
     height: '100%',
     width: '100%',
   },
-   today: {
-     backgroundColor: fade(palette.primary.main, 0.16),
-   },
-   weekend: {
-     backgroundColor: fade(palette.action.disabledBackground, 0.06),
-   },
-   flexibleSpace: {
-    //margin: '0 auto 0 0',
+  today: {
+    backgroundColor: fade(palette.primary.main, 0.16),
+  },
+  weekend: {
+    backgroundColor: fade(palette.action.disabledBackground, 0.06),
+  },
+  flexibleSpace: {
     width: "100px",
     float: 'right',
     margin: "10px"
-    //height: '100px'
   },
   sub: {
     marginTop: '5px'
   }
- });
- 
- const useStyles = makeStyles((theme) => ({
-   root: {
-     padding: '10px',
-   },
-   sub: {
-     marginRight: '10px'
-   },
- }));
- 
- 
-//  const AddComponents = () => {
-//    const classes = useStyles();
-//    return (
-//    <div className={classes.root}>
-//      <Button variant="contained" className={classes.sub}>
-//        <Link to={"/add-subject"} style={{ textDecoration: 'none' }}>
-//          Add Subject
-//        </Link>
-//      </Button>
-//      <Button variant="contained" color="primary" className={classes.sub} >
-//        <Link to={"/add-student"} style={{ textDecoration: 'none' }}>
-//          Add Student
-//        </Link>
-//      </Button>
-//      <Button variant="contained" color="secondary" >
-//        <Link to={"/add-teacher"} style={{ textDecoration: 'none' }}>
-//          Add Teacher
-//        </Link>
-//      </Button>
-//    </div>
-//    );
-//  };
-
- 
-const ExternalViewSwitcher = ({
-  currentViewName,
-  onChange,
-  }) => (
-  <RadioGroup
-    aria-label="Views"
-    style={{ flexDirection: 'row', padding: '10px', float: 'right' }}
-    name="views"
-    value={currentViewName}
-    onChange={onChange}
-  >
-    {/* <FormControlLabel value="Work Week" control={<Radio />} label="Work Week" /> */}
-    <FormControlLabel value="Day" control={<Radio />} label="Day" />
-    <FormControlLabel value="Week" control={<Radio />} label="Week" />
-    <FormControlLabel value="Month" control={<Radio />} label="Month" />
-  </RadioGroup>
-);
+});
 
 const isRestTimeWeek = date => {
    if (date.getDay() === 6) {
@@ -211,21 +118,6 @@ const isRestTimeWeek = date => {
      return <WeekView.DayScaleCell {...restProps} className={classes.weekend} />;
    } return <WeekView.DayScaleCell {...restProps} />;
  });
-
-
-
-// // const retrieveTeachers = () => {
-// //   TeacherDataService.getAll()
-// //     .then(response => {
-// //       console.log(response.data);
-// //       return response.data;
-// //     })
-// //     .catch(e => {
-// //       console.log(e);
-// //     });
-// // }
-
-// //const teachers = retrieveTeachers();
 
 const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
   classes, data, formatDate, subject, ...restProps
@@ -261,32 +153,6 @@ const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
   </Appointments.AppointmentContent>
 ));
 
-const FlexibleSpace = withStyles(styles, { name: 'FlexibleSpace' })(({
-  classes, state, teachers, valueTeacher, handleChange, ...restProps
-}) => (
-  <Toolbar.FlexibleSpace {...restProps} >
-    <FormControl className={classes.flexibleSpace}>
-      <InputLabel id="demo-simple-select-label">Teacher</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select-outlined"
-        value={valueTeacher}
-        onChange={handleChange}
-        label="Teacher"
-      >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        {teachers &&
-        teachers.map((teacher, index) => (
-          <MenuItem value={teacher.id} >{teacher.name}</MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  </Toolbar.FlexibleSpace>
-));
-
-
 const isWeekOrMonthView = viewName => viewName === 'Day' || viewName === 'Week' || viewName === 'Month';
 
 class ViewCalendar extends Component {
@@ -296,7 +162,6 @@ class ViewCalendar extends Component {
       tutorials: [],
       teachers: [],
       valueTeacher: 0,
-      searchName: '',
 
       currentViewName: 'Day',
       
@@ -306,19 +171,12 @@ class ViewCalendar extends Component {
       // {
       //   resourceName: 'teacherId',
       // }
-      ],
-
-      //addedAppointment: {},
-      anchorEl: null
+      ]
     };
 
     this.currentViewNameChange = (currentViewName) => {
       this.setState({ currentViewName });
     };
-
-    // this.currentViewNameChange = (e) => {
-    //   this.setState({ currentViewName: e.target.value });
-    // };
 
     this.retrieveTutorials = this.retrieveTutorials.bind(this);
     this.retrieveTeachers = this.retrieveTeachers.bind(this);
@@ -379,72 +237,31 @@ class ViewCalendar extends Component {
       if (array[i].id === currentTeacherId) {
         this.searchTeacher(e);
         this.setState({
-          //teacherId: e.target.value,
-          //searchName: e.target.value
           valueTeacher: currentTeacherId
         });
         return;
       }
     }
     this.retrieveTutorials();
-    //this.searchTeacher()
   }
-
-  // retrieveSubject(id) {
-  //   SubjectDataService.get(id)
-  //     .then(response => {
-  //       this.setState({
-  //         subject: response.data.name
-  //       });
-  //       console.log(response.data);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // }
-
-  // commitChanges({ added, changed, deleted }) {
-  //   this.setState((state) => {
-  //     let { data } = state;
-  //     if (added) {
-  //       const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-  //       data = [...data, { id: startingAddedId, ...added }];
-  //     }
-  //     if (changed) {
-  //       data = data.map(appointment => (
-  //         changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-  //     }
-  //     if (deleted !== undefined) {
-  //       data = data.filter(appointment => appointment.id !== deleted);
-  //     }
-  //     return { data };
-  //   });
-  // }
 
   render() {
     const { classes } = this.props;
-    const { tutorials, teachers, valueTeacher, resources, currentViewName, currentDate, grouping } = this.state;
+    const { tutorials, teachers, valueTeacher, currentViewName, grouping } = this.state;
     
     return (
       <>
       {tutorials ?  (
         <>
-        {/* <ExternalViewSwitcher
-          currentViewName={currentViewName}
-          onChange={this.currentViewNameChange}
-        /> */}
         <Paper>
           <Scheduler
-            //data={schedulerData}
             data={tutorials}
             height={760}
           >
 
             <Grid
               container
-              //direction="column"
               justify="flex-end"
-              //alignItems="flex-start"
               className={classes.sub}
             >
               <FormControl className={classes.flexibleSpace}>
@@ -465,23 +282,16 @@ class ViewCalendar extends Component {
                   <MenuItem value={teacher.id} >{teacher.name}</MenuItem>
                 ))}
               </Select>
-
               
             </FormControl>
             </Grid>
 
             <ViewState
-            //defaultCurrentDate="2017-05-25"
-            //currentDate={currentDate}
-
               onCurrentViewNameChange={this.currentViewNameChange}
               currentViewName={currentViewName}
             />
             <EditingState
               onCommitChanges={this.commitChanges}
-
-            // addedAppointment={addedAppointment}
-            // onAddedAppointmentChange={this.changeAddedAppointment}
             />
             <GroupingState
               grouping={grouping}
@@ -493,7 +303,6 @@ class ViewCalendar extends Component {
               endDayHour={24}
               intervalCount={1}
               timeTableCellComponent={TimeTableCellDay}
-              //timeScaleLayoutComponent={TimeScaleLayoutDay}
             />
             <WeekView
               excludedDays={[0, 8]}
@@ -523,8 +332,6 @@ class ViewCalendar extends Component {
             
             <IntegratedGrouping />
 
-            {/* <ConfirmationDialog />
-            */}
             <EditRecurrenceMenu />
 
             <Toolbar />
