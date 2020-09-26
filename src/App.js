@@ -50,13 +50,12 @@ export default class App extends React.PureComponent {
         currentUser: user,
       });
     }
-
   }
 
   handleChange(e, newvalue) {
     this.setState({
-        test: newvalue,
-      });
+      test: newvalue,
+    });
   }
 
   logOut() {
@@ -79,37 +78,36 @@ export default class App extends React.PureComponent {
               <Button color="inherit" style={{ width: '200px' }} >Calendar</Button>
             </Link>
             <Link to={"/tutorials"} style={{ textDecoration: 'none', color: 'black' }}>
-              <Button color="inherit" style={{ width: '200px' }} aria-controls="simple-menu" aria-haspopup="true" >
+              <Button color="inherit" style={{ width: '200px' }} >
                 Classes
               </Button>
             </Link>
 
             <Link to={"/students"} style={{ textDecoration: 'none', color: 'black' }}>
-              <Button color="inherit" style={{ width: '200px' }} aria-controls="simple-menu" aria-haspopup="true" >
+              <Button color="inherit" style={{ width: '200px' }} >
                 Students
               </Button>
             </Link>
 
             <Link to={"/teachers"} style={{ textDecoration: 'none', color: 'black' }}>
-              <Button color="inherit" style={{ width: '200px' }} aria-controls="simple-menu" aria-haspopup="true" >
+              <Button color="inherit" style={{ width: '200px' }} >
                 Teachers
               </Button>
             </Link>
 
             <Link to={"/subjects"} style={{ textDecoration: 'none', color: 'black' }}>
-              <Button color="inherit" style={{ width: '200px' }} aria-controls="simple-menu" aria-haspopup="true" >
+              <Button color="inherit" style={{ width: '200px' }} >
                 Subjects
               </Button>
             </Link>
 
             <Link to={"/fees"} style={{ textDecoration: 'none', color: 'black', flexGrow: '1' }}>
-              <Button color="inherit" style={{ width: '200px' }} aria-controls="simple-menu" aria-haspopup="true" >
+              <Button color="inherit" style={{ width: '200px' }} >
                 Fees
               </Button>
             </Link>
-            {/* <div style={{ flexGrow: '1' }}></div> */}
             <Link to={"/login"} style={{ textDecoration: 'none', color: 'black' }}>
-              <Button color="primary" style={{ width: '100px' }} aria-controls="simple-menu" aria-haspopup="true" size="small" onClick={this.logOut}>
+              <Button color="primary" style={{ width: '100px' }} size="small" onClick={this.logOut}>
                 LogOut
               </Button>
             </Link>
@@ -156,10 +154,6 @@ export default class App extends React.PureComponent {
       
         </Switch>
       </div>
-
-      
-
-        
       </>
     );
   }
