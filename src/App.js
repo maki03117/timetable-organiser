@@ -7,9 +7,9 @@ import Grid from '@material-ui/core/Grid';
 
 import ViewCalendar from "./components/view-calendar";
 
-import ClassList from "./components/tutorials/class-list";
-import AddClass from "./components/tutorials/add-class";
-import Class from "./components/tutorials/class";
+import ClassList from "./components/classes/class-list";
+import AddClass from "./components/classes/add-class";
+import Class from "./components/classes/class";
 
 import SubjectList from "./components/subjects/subject-list";
 import AddSubject from "./components/subjects/add-subject";
@@ -77,7 +77,7 @@ export default class App extends React.PureComponent {
             <Link to={"/view-calendar"} style={{ textDecoration: 'none', color: 'black' }}>
               <Button color="inherit" style={{ width: '200px' }} >Calendar</Button>
             </Link>
-            <Link to={"/tutorials"} style={{ textDecoration: 'none', color: 'black' }}>
+            <Link to={"/classes"} style={{ textDecoration: 'none', color: 'black' }}>
               <Button color="inherit" style={{ width: '200px' }} >
                 Classes
               </Button>
@@ -133,9 +133,9 @@ export default class App extends React.PureComponent {
               container
               justify="center"
             >
-              <Route exact path="/tutorials" component={ClassList} />
-              <Route exact path="/add-tutorial" component={AddClass} />
-              <Route exact path="/tutorials/:id" component={Class} />
+              <Route exact path="/classes" component={ClassList} />
+              <Route exact path="/add-class" component={AddClass} />
+              <Route exact path="/classes/:id" component={Class} />
 
               <Route exact path="/students" component={StudentList} />
               <Route exact path="/add-student" component={AddStudent} />

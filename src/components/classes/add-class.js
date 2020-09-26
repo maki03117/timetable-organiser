@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import TutorialDataService from "../../services/tutorial.service";
+import TutorialDataService from "../../services/class.service";
 import SubjectDataService from "../../services/subject.service";
 import StudentDataService from "../../services/student.service";
 import TeacherDataService from "../../services/teacher.service";
@@ -408,7 +408,7 @@ class AddTutorial extends Component {
           className={classes.sub}
         >
           <Link
-            to={"/tutorials"}
+            to={"/classes"}
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <Button variant="outlined" size="small">
