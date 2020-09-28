@@ -24,7 +24,7 @@ const styles = theme => ({
 
 const columns = [
   { title: 'Name', field: 'name' },
-  { title: 'Grade', field: 'grade' },
+  { title: 'Year', field: 'grade' },
   { title: 'Contact', field: 'phoneNum' },
   { title: 'Address', field: 'address' },
   { title: 'Notes', field: 'notes' },

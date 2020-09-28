@@ -35,7 +35,7 @@ function renameKey ( obj ) {
 }
 
 const columns = [
-  { title: 'Grade', field: 'grade' },
+  { title: 'Year', field: 'grade' },
   { title: 'Subject', field: 'subject' },
   { title: 'Day', field: 'day' },
   { title: 'Start Time', field: 'startTime' },
@@ -159,7 +159,7 @@ class TutorialList extends Component {
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <Button color="primary" variant="contained" size="small" onClick={this.newTutorial}>
-              Add Tutorial
+              Add Class
             </Button>
           </Link>
         </div>

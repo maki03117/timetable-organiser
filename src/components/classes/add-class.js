@@ -475,7 +475,7 @@ class AddTutorial extends Component {
               </FormControl>
 
               <FormControl className={classes.formControl}>
-                <InputLabel id="select-grade">Grade</InputLabel>
+                <InputLabel id="select-grade">Year</InputLabel>
                 <Select
                   labelId="select-grade"
                   id="class-grade"

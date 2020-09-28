@@ -211,7 +211,7 @@ class Student extends Component {
                   />
                 </FormControl>
                 <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">Grade</InputLabel>
+                  <InputLabel id="demo-simple-select-label">Year</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

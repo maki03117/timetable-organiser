@@ -28,14 +28,14 @@ const styles = theme => ({
 
 const columns = [
   { title: 'Name', field: 'name' },
-  { title: 'Grade', field: 'grade' },
+  { title: 'Year', field: 'grade' },
   { title: 'Contact', field: 'phoneNum' },
   { title: 'Address', field: 'address' },
   { title: 'Notes', field: 'notes' },
 ];
 
 const columnsOfClasses = [
-  { title: 'Grade', field: 'grade' },
+  { title: 'Year', field: 'grade' },
   { title: 'Subject', field: 'subject' },
   { title: 'Day', field: 'day' },
   { title: 'Start Time', field: 'startTime' },
