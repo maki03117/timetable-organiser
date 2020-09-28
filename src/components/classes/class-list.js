@@ -155,7 +155,7 @@ class TutorialList extends Component {
             Remove All
           </Button>
           <Link
-            to={"/add-tutorial"}
+            to={"/add-class"}
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <Button color="primary" variant="contained" size="small" onClick={this.newTutorial}>
