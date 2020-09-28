@@ -423,20 +423,6 @@ class Tutorial extends Component {
               >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date"
-                    
-                    value={startDate, endDate}
-                    onChange={this.onChangeStartDate, this.onChangeEndDate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
                   <KeyboardTimePicker
                     margin="normal"
                     id="startTime-picker"
@@ -455,6 +441,20 @@ class Tutorial extends Component {
                     onChange={this.onChangeEndDate}
                     KeyboardButtonProps={{
                       'aria-label': 'change time',
+                    }}
+                  />
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date"
+                    
+                    value={startDate, endDate}
+                    onChange={this.onChangeStartDate, this.onChangeEndDate}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
                     }}
                   />
                 </Grid>
