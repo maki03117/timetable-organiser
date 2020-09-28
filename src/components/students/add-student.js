@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
 import { withStyles } from '@material-ui/core/styles';
 
 import { grades } from '../../resources';
@@ -156,7 +157,7 @@ class AddStudent extends Component {
         <Grid
           container
           direction="column"
-          justify="flex-start"
+          justify="center"
           alignItems="flex-start"
           className={classes.sub}
         >
@@ -171,7 +172,7 @@ class AddStudent extends Component {
           <Paper className={classes.sub}>
             <Grid container
               direction="column"
-              justify="flex-start"
+              justify="center"
               alignItems="flex-start"
             >
               <FormControl style={{width: '500px'}}>
@@ -239,9 +240,10 @@ class AddStudent extends Component {
               </FormControl>
 
               <Grid
-                className={classes.sub}
+                className={classes.formControl}
+                style={{width: '100%'}}
               >
-                <Button style={{textAlign: 'right', paddingRight: '10px'}} variant="contained" color="primary" size="small" onClick={this.saveStudent}>
+                <Button style={{float: 'right', marginRight: "15px"}} variant="contained" color="primary" size="small" onClick={this.saveStudent}>
                   Submit
                 </Button>
               </Grid>
@@ -250,11 +252,11 @@ class AddStudent extends Component {
         </Grid>
         
         {this.state.submitted ? (
-          <div style={{width:'300px'}} >
-            <div style={{marginButtom:'10px'}}>
-              <Alert severity="success">Submitted successfully!</Alert>
-            </div>
-            <Button variant="contained" onClick={this.newStudent}>
+          <div className={classes.formControl}>
+            <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
+              <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
+            </Snackbar>
+            <Button size="small" variant="contained" onClick={this.newStudent}>
               Add More
             </Button>
           </div>
