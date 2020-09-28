@@ -28,6 +28,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
+  DateTimePicker,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
@@ -423,7 +424,21 @@ class Tutorial extends Component {
               >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
-                  <KeyboardTimePicker
+                  <DateTimePicker
+                    label="Start Date and Time"
+                    //inputVariant="outlined"
+                    value={startDate}
+                    onChange={this.onChangeStartDate}
+                    style={{width: "200px"}}
+                  />
+                  <DateTimePicker
+                    label="End Date and Time"
+                    //inputVariant="outlined"
+                    value={endDate} 
+                    onChange={this.onChangeEndDate}
+                    style={{width: "200px"}}
+                  />
+                  {/* <KeyboardTimePicker
                     margin="normal"
                     id="startTime-picker"
                     label="Start Time"
@@ -456,7 +471,7 @@ class Tutorial extends Component {
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                  />
+                  /> */}
                 </Grid>
               </MuiPickersUtilsProvider>
 

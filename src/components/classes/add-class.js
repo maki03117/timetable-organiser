@@ -26,6 +26,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
+  DateTimePicker,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
@@ -435,6 +436,33 @@ class AddTutorial extends Component {
             >
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
+                  <DateTimePicker
+                    label="Start Date and Time"
+                    //inputVariant="outlined"
+                    value={startDate}
+                    onChange={this.onChangeStartDate}
+                    style={{width: "200px"}}
+                  />
+                  <DateTimePicker
+                    label="End Date and Time"
+                    //inputVariant="outlined"
+                    value={endDate} 
+                    onChange={this.onChangeEndDate}
+                    style={{width: "200px"}}
+                  />
+                  {/* <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date"
+                    value={startDate, endDate}
+                    onChange={this.onChangeStartDate, this.onChangeEndDate}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
                   <KeyboardTimePicker
                     margin="normal"
                     id="startTime-picker"
@@ -454,20 +482,7 @@ class AddTutorial extends Component {
                     KeyboardButtonProps={{
                       'aria-label': 'change time',
                     }}
-                  />
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date"
-                    value={startDate, endDate}
-                    onChange={this.onChangeStartDate, this.onChangeEndDate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
+                  /> */}
                 </Grid>
               </MuiPickersUtilsProvider>
               
