@@ -162,7 +162,7 @@ class AddStudent extends Component {
           className={classes.sub}
         >
           <Link
-            to={"/Students"}
+            to={"/students"}
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <Button variant="outlined" size="small">
