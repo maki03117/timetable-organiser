@@ -115,7 +115,8 @@ class AddTutorial extends Component {
       open: false,
       addingStudent: true,
       submitted: false,
-      selectedRow: null
+      selectedRow: null,
+      warning: false
     };
   }
 
@@ -289,6 +290,13 @@ class AddTutorial extends Component {
     var newStart = timeConverter(this.state.startDate)//.toJSON().slice(0, -1);
     var newEnd = timeConverter(this.state.endDate)//.toJSON().slice(0, -1);
 
+    if (!this.state.valueGrade || !this.state.valueRoom) {
+      this.setState({
+        warning: true,
+        message: "Make sure to fill out all above!"
+      });
+    }
+
     var data = {
       startDate: newStart,
       endDate: newEnd,
@@ -335,7 +343,7 @@ class AddTutorial extends Component {
         .catch(e => {
           console.log(e);
           this.setState({
-            open: true,
+            warning: true,
             message: "Make sure to fill out all above!"
           });
         });
@@ -343,8 +351,8 @@ class AddTutorial extends Component {
       .catch(e => {
         console.log(e);
         this.setState({
+          warning: true,
           message: "Make sure to fill out all above!",
-          open: true
         });
       });
   }
@@ -371,14 +379,17 @@ class AddTutorial extends Component {
       studentIdsArr: [],
 
       open: false,
-      addingStudent: false,
-      submitted: false
+      addingStudent: true,
+      submitted: false,
+      selectedRow: null,
+      warning: false
     });
   } 
 
   handleClose() {
     this.setState({
-      open: false
+      open: false,
+      warning: false
     });
   }
 
@@ -396,7 +407,8 @@ class AddTutorial extends Component {
       open, 
       addingStudent, 
       startDate,
-      endDate } = this.state;
+      endDate,
+      warning } = this.state;
     
     return (
       <div className={classes.root}>
@@ -418,7 +430,7 @@ class AddTutorial extends Component {
           <Paper className={classes.sub}>
             <Grid container
               direction="column"
-              justify="flex-start"
+              justify="center"
               alignItems="flex-start"
             >
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -578,8 +590,9 @@ class AddTutorial extends Component {
                 </div>
                 <Grid
                   className={classes.buttonStyle}
+                  style={{width: '100%'}}
                 >
-                  <Button variant="contained" color="primary" size="small" onClick={this.saveTutorial}>
+                  <Button style={{float: 'right', marginRight: "15px"}} variant="contained" color="primary" size="small" onClick={this.saveTutorial}>
                     Submit
                   </Button>
                 </Grid>
@@ -601,8 +614,9 @@ class AddTutorial extends Component {
                 </div>
                 <Grid
                   className={classes.buttonStyle}
+                  style={{width: '100%'}}
                 >
-                  <Button variant="contained" color="primary" size="small" onClick={this.saveTutorial}>
+                  <Button style={{float: 'right', marginRight: "20px"}} variant="contained" color="primary" size="small" onClick={this.saveTutorial}>
                     Submit
                   </Button>
                 </Grid>
@@ -619,13 +633,15 @@ class AddTutorial extends Component {
             <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
           </Snackbar>
           <div className={classes.buttonStyle}>
-            <Button variant="contained" onClick={this.newTutorial}>
+            <Button variant="contained" size="small" onClick={this.newTutorial}>
               Add More
             </Button>
           </div>
           </>
         ) : (
-          <></>
+          <Snackbar open={warning} autoHideDuration={6000} onClose={this.handleClose}>
+            <Alert severity="warning" onClose={this.handleClose}>{this.state.message}</Alert>
+          </Snackbar>
         )}
         </Grid>
       </div>
