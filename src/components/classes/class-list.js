@@ -13,7 +13,7 @@ import { formatDateToString, weekday, roomNums } from '../../resources';
 
 const styles = theme => ({
   root: {
-    width: '1000px',
+    width: '1500px',
     margin: '20px'
   },
   sub: {
@@ -35,16 +35,16 @@ function renameKey ( obj ) {
 }
 
 const columns = [
-  { title: 'Year', field: 'grade', width: 70 },
-  { title: 'Subject', field: 'subject' },
-  { title: 'Day', field: 'day', width: 90 },
-  { title: 'Start Time', field: 'startTime' },
-  { title: 'End Time', field: 'endTime' },
-  { title: 'Teacher', field: 'teacher' },
-  { title: 'Type', field: 'type', width: 80 },
-  { title: 'Number of Students', field: 'students.length' },
-  { title: 'Room', field: 'roomNum' },
-  { title: 'Notes', field: 'notes' },
+  { headerName: 'Year', field: 'grade', width: 70 },
+  { headerName: 'Subject', field: 'subject' },
+  { headerName: 'Day', field: 'day', width: 90 },
+  { headerName: 'Start Time', field: 'startTime' },
+  { headerName: 'End Time', field: 'endTime' },
+  { headerName: 'Teacher', field: 'teacher' },
+  { headerName: 'Type', field: 'type', width: 80 },
+  { headerName: 'Number of Students', field: 'students.length' },
+  { headerName: 'Room', field: 'roomNum' },
+  { headerName: 'Notes', field: 'notes' },
 ];
 
 class TutorialList extends Component {
@@ -122,7 +122,7 @@ class TutorialList extends Component {
           <Grid container>
             <Grid item>
               <MaterialTable
-                title="Classes"
+                headerName="Classes"
                 columns={columns}
                 data={tutorials}
                 onRowClick={((evt, selectedRow) => this.setActiveTutorial(selectedRow))}
