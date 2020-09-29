@@ -255,7 +255,7 @@ class FeeList extends Component {
             className={classes.sub}
           >
             <div style={{ height: 650, width: 1060 }}>
-              <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
+              <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={5} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
             </div>
           </Grid>
         ):(
