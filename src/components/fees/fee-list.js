@@ -28,24 +28,24 @@ const styles = theme => ({
 })
 
 const columns = [
-  { title: 'Name', field: 'name' },
-  { title: 'Grade', field: 'grade' },
-  { title: 'Contact', field: 'phoneNum', width: 150},
-  { title: 'Address', field: 'address', width: 250 },
-  { title: 'Notes', field: 'notes', width: 200 },
+  { headerName: 'Name', field: 'name' },
+  { headerName: 'Grade', field: 'grade' },
+  { headerName: 'Contact', field: 'phoneNum', width: 150},
+  { headerName: 'Address', field: 'address', width: 250 },
+  { headerName: 'Notes', field: 'notes', width: 200 },
 ];
 
 const columnsOfClasses = [
-  { title: 'Year', field: 'grade' },
-  { title: 'Subject', field: 'subject' },
-  { title: 'Day', field: 'day' },
-  { title: 'Start Time', field: 'startTime' },
-  { title: 'End Time', field: 'endTime' },
-  { title: 'Teacher', field: 'teacher' },
-  { title: 'Type', field: 'type' },
-  { title: 'Room', field: 'roomNum' },
-  { title: 'Notes', field: 'notes' },
-  { title: 'Fee', field: 'fee' }
+  { headerName: 'Year', field: 'grade', width: 70 },
+  { headerName: 'Subject', field: 'subject' },
+  { headerName: 'Day', field: 'day', width: 100 },
+  { headerName: 'Start Time', field: 'startTime' },
+  { headerName: 'End Time', field: 'endTime' },
+  { headerName: 'Teacher', field: 'teacher' },
+  { headerName: 'Type', field: 'type', width: 80 },
+  { headerName: 'Room', field: 'roomNum' },
+  { headerName: 'Notes', field: 'notes', width: 200 },
+  { headerName: 'Fee', field: 'fee' }
 ];
 
 function renameKey ( obj ) {
@@ -254,15 +254,9 @@ class FeeList extends Component {
             justify="center"
             className={classes.sub}
           >
-            <MaterialTable
-              title="Classes"
-              columns={columnsOfClasses}
-              data={tutorials}
-              options={{
-                grouping: true,
-                pageSize: 5,
-              }}
-            />
+            <div style={{ height: 650, width: 1060 }}>
+              <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
+            </div>
           </Grid>
         ):(
           <></>
