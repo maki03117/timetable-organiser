@@ -21,8 +21,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
-
-import MaterialTable from 'material-table';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import DateFnsUtils from '@date-io/date-fns';
@@ -37,7 +35,7 @@ import { grades, types } from '../../resources';
 
 const columns = [
   { title: 'Name', field: 'name' },
-  { title: 'Grade', field: 'grade' },
+  { title: 'Year', field: 'grade' },
   { title: 'Notes', field: 'notes' },
 ];
 
@@ -249,16 +247,16 @@ class Tutorial extends Component {
     }));
   }
 
-  handleSelectionChange(rowData) {
-    var tempArr = [rowData.id];
+  handleSelectionChange(id) {
+    var tempArr = [id];
 
     this.setState({
       studentIdToBeAdded: tempArr,
-      selectedRow: rowData.id
+      selectedRow: id
     });
   }
 
-  handleSelectionsChange(rowData, rows) {
+  handleSelectionsChange(rows) {
     this.setState({
       selectedRows: rows
     });
@@ -574,21 +572,29 @@ class Tutorial extends Component {
                 <>
                 {(currentTutorial.type === 'Private') ? (
                   <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
-                    
-                    <div style={{ maxWidth: '100%' }}>
-                      <MaterialTable
-                        title="Select ONE student"
-                        columns={columns}
-                        data={students}
-                        onRowClick={((evt, selectedRow) => this.handleSelectionChange(selectedRow))}
-                        options={{
-                          grouping: true,
-                          pageSize: 10,
-                          rowStyle: rowData => ({
-                            backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
-                          })
-                        }}
-                      />
+                    <List
+                      component="nav"
+                      aria-labelledby="nested-list-subheader"
+                      subheader={
+                        <>
+                        <Paper>
+                          <ListSubheader component="div" id="nested-list-subheader">
+                            Original: {findCurrentStudents(this.state.currentTutorial.students)}
+                            {/* Current Students: {currentTutorial.students[0][0].name} */}
+                          </ListSubheader>
+                        </Paper>
+                        </>
+                      }
+                      dense={true}
+                      styles={{padding: "10px", backgroundColor: "black"}}
+                      //className={classes.root}
+                    >
+                    </List>
+                    <Typography className={classes.pos} color="textSecondary">
+                      Please Select ONE Student
+                    </Typography>
+                    <div style={{  height: 650, width: '100%' }}>
+                      <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.handleSelectionChange(row.data.id))} />
                     </div>
                   </Paper>
                 ) : (
@@ -620,18 +626,11 @@ class Tutorial extends Component {
                       styles={{padding: "10px", backgroundColor: "black"}}
                     >
                     </List>
-                    <div style={{ maxWidth: '100%' }}>
-                      <MaterialTable
-                        title="Select Students"
-                        columns={columns}
-                        data={students}
-                        options={{
-                          grouping: true,
-                          pageSize: 10,
-                          selection: true
-                        }}
-                        onSelectionChange={(rows, rowData)=>this.handleSelectionsChange(rowData, rows)}
-                      />
+                    <Typography className={classes.pos} color="textSecondary">
+                      Please Select Students
+                    </Typography>
+                    <div style={{  height: 650, width: '100%' }}>
+                      <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} checkboxSelection onSelectionChange={(obj)=>(this.handleSelectionsChange(obj.rows))} />
                     </div>
                     <Grid
                       container
@@ -659,7 +658,7 @@ class Tutorial extends Component {
                   </Button>
                   {done ? (
                     <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
-                      <Alert severity="success">{this.state.message}</Alert>
+                      <Alert severity="success" onClose={this.handleClose}>{this.state.message}</Alert>
                     </Snackbar>
                   ):(
                     <></>
@@ -670,7 +669,7 @@ class Tutorial extends Component {
             </Paper>
           ) : (
             <Snackbar open={true} autoHideDuration={6000} onClose={this.handleClose}>
-              <Alert severity="warning">Please click on a Tutorial!</Alert>
+              <Alert severity="warning" onClose={this.handleClose}>Please click on a Tutorial!</Alert>
             </Snackbar>
           )}
         </Grid>

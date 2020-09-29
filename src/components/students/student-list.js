@@ -24,11 +24,11 @@ const styles = theme => ({
 })
 
 const columns = [
-  { title: 'Name', field: 'name' },
-  { title: 'Year', field: 'grade' },
-  { title: 'Contact', field: 'phoneNum', width: 150},
-  { title: 'Address', field: 'address', width: 250 },
-  { title: 'Notes', field: 'notes', width: 200 },
+  { headerName: 'Name', field: 'name' },
+  { headerName: 'Year', field: 'grade' },
+  { headerName: 'Contact', field: 'phoneNum', width: 150},
+  { headerName: 'Address', field: 'address', width: 250 },
+  { headerName: 'Notes', field: 'notes', width: 200 },
 ];
 
 

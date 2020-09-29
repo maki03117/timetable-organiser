@@ -4,7 +4,6 @@ import StudentDataService from "../../services/student.service";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import MaterialTable from 'material-table';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
@@ -29,7 +28,7 @@ const styles = theme => ({
 
 const columns = [
   { headerName: 'Name', field: 'name' },
-  { headerName: 'Grade', field: 'grade' },
+  { headerName: 'Year', field: 'grade' },
   { headerName: 'Contact', field: 'phoneNum', width: 150},
   { headerName: 'Address', field: 'address', width: 250 },
   { headerName: 'Notes', field: 'notes', width: 200 },

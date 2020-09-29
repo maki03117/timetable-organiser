@@ -20,8 +20,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
-import MaterialTable from 'material-table';
 import Snackbar from '@material-ui/core/Snackbar';
+import { DataGrid } from '@material-ui/data-grid';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -61,6 +61,9 @@ const styles = theme => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  pos: {
+    margin: theme.spacing(1),
+  }
 })
 
 const timeConverter = (date) => {
@@ -235,20 +238,23 @@ class AddTutorial extends Component {
     });
   }
 
-  handleSelectionChange(rowData) {
-    this.state.studentIdsArr.push(rowData.id);
+  handleSelectionChange(id) {
+    this.state.studentIdsArr.push(id);
     
     this.setState({
       numRows: 1,
-      selectedRow: rowData.tableData.id
+      selectedRow: id
     });
   }
 
-  handleSelectionsChange(rowData, rows) {
-    this.state.studentIdsArr.push(rowData.id);
-
+  handleSelectionsChange(data) {
+    var tempArr = [];
+    for (var i = 0; i < data.length; i++) {
+      tempArr.push(data[i].id);
+    }
     this.setState({
-      numRows: rows.length
+      studentIdsArr: tempArr,
+      numRows: data.length
     });
   }
 
@@ -587,7 +593,7 @@ class AddTutorial extends Component {
             <>
             {(valueType === 'Private') ? (
               <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
-                <div style={{ maxWidth: '100%' }}>
+                {/* <div style={{ maxWidth: '100%' }}>
                   <MaterialTable
                     title="Select ONE student"
                     columns={columns}
@@ -602,6 +608,12 @@ class AddTutorial extends Component {
                       })
                     }}
                   />
+                </div> */}
+                <Typography className={classes.pos} color="textSecondary">
+                  Please Select ONE Student
+                </Typography>
+                <div style={{  height: 650, width: '100%' }}>
+                  <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.handleSelectionChange(row.data.id))} />
                 </div>
                 <Grid
                   className={classes.buttonStyle}
@@ -614,7 +626,7 @@ class AddTutorial extends Component {
               </Paper>
             ) : (
               <Paper elevation={3} style={{marginTop: '10px', padding: '10px', width: '600px'}}>
-                <div style={{ maxWidth: '100%' }}>
+                {/* <div style={{ maxWidth: '100%' }}>
                   <MaterialTable
                     title="Select Students"
                     columns={columns}
@@ -626,6 +638,12 @@ class AddTutorial extends Component {
                     }}
                     onSelectionChange={(rows, rowData)=>this.handleSelectionsChange(rowData, rows)}
                   />
+                </div> */}
+                <Typography className={classes.pos} color="textSecondary">
+                  Please Select Students
+                </Typography>
+                <div style={{  height: 650, width: '100%' }}>
+                  <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} checkboxSelection onSelectionChange={(obj)=>(this.handleSelectionsChange(obj.rows))} />
                 </div>
                 <Grid
                   className={classes.buttonStyle}
