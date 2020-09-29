@@ -30,8 +30,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   DateTimePicker,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
 } from '@material-ui/pickers';
 
 import { grades, types } from '../../resources';

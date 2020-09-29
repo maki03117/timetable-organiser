@@ -21,14 +21,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import Snackbar from '@material-ui/core/Snackbar';
+import Typography from '@material-ui/core/Typography';
 import { DataGrid } from '@material-ui/data-grid';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   DateTimePicker,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
 } from '@material-ui/pickers';
 
 import { grades, types } from '../../resources';
