@@ -9,10 +9,11 @@ import { withStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import MaterialTable from 'material-table';
+import { DataGrid } from '@material-ui/data-grid';
 
 const styles = theme => ({
   root: {
-    width: '500px',
+    width: '800px',
     margin: '20px'
   },
   sub: {
@@ -25,9 +26,9 @@ const styles = theme => ({
 const columns = [
   { title: 'Name', field: 'name' },
   { title: 'Year', field: 'grade' },
-  { title: 'Contact', field: 'phoneNum' },
-  { title: 'Address', field: 'address' },
-  { title: 'Notes', field: 'notes' },
+  { title: 'Contact', field: 'phoneNum', width: 150},
+  { title: 'Address', field: 'address', width: 250 },
+  { title: 'Notes', field: 'notes', width: 200 },
 ];
 
 
@@ -108,7 +109,7 @@ class StudentList extends Component {
         alignItems="flex-start"
         className={classes.root}
       >
-        <Paper>
+        {/* <Paper>
           <Grid container>
             <Grid item>
               <MaterialTable
@@ -129,7 +130,13 @@ class StudentList extends Component {
               </Snackbar>
             </Grid>
           </Grid>
-        </Paper>
+        </Paper> */}
+        <div style={{  height: 650, width: '100%' }}>
+          <DataGrid rows={students} columns={columns} pageSize={10} onRowClick={((row)=>this.setActiveStudent(row.data))} />
+          <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
+            <Alert severity="error" onClose={this.handleClose}>{this.state.message}</Alert>
+          </Snackbar>
+        </div>
 
         <div className={classes.sub}>
           {currentStudent ? (

@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, MuiPickersUtilsProvider, } from "@material-ui/pickers";
+import { DataGrid } from '@material-ui/data-grid';
 
 import { formatDateToString, weekday, roomNums } from '../../resources';
 
@@ -28,10 +29,10 @@ const styles = theme => ({
 
 const columns = [
   { title: 'Name', field: 'name' },
-  { title: 'Year', field: 'grade' },
-  { title: 'Contact', field: 'phoneNum' },
-  { title: 'Address', field: 'address' },
-  { title: 'Notes', field: 'notes' },
+  { title: 'Grade', field: 'grade' },
+  { title: 'Contact', field: 'phoneNum', width: 150},
+  { title: 'Address', field: 'address', width: 250 },
+  { title: 'Notes', field: 'notes', width: 200 },
 ];
 
 const columnsOfClasses = [
@@ -229,7 +230,7 @@ class FeeList extends Component {
         alignItems="flex-start"
         className={classes.root}
       >
-        <Grid item className={classes.sub}>
+        {/* <Grid item className={classes.sub}>
           <MaterialTable
             title="Select Student"
             columns={columns}
@@ -243,7 +244,10 @@ class FeeList extends Component {
               })
             }}
           />
-        </Grid>
+        </Grid> */}
+        <div style={{ height: 350, width: '800px' }}>
+          <DataGrid rows={students} columns={columns} pageSize={10} onRowClick={((row)=>this.setActiveStudent(row.data))} />
+        </div>
         {tutorials ? (
           <Grid 
             item

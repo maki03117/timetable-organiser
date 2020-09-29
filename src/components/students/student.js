@@ -46,6 +46,7 @@ class Student extends Component {
     this.getStudent = this.getStudent.bind(this);
     this.updateStudent = this.updateStudent.bind(this);
     this.deleteStudent = this.deleteStudent.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.state = {
       currentStudent: {
@@ -144,7 +145,7 @@ class Student extends Component {
         console.log(response.data);
         this.setState({
           done: true,
-          message: "The Student was updated successfully!"
+          message: "Student updated successfully!"
         });
       })
       .catch(e => {
@@ -210,7 +211,7 @@ class Student extends Component {
                     onChange={this.onChangeName}
                   />
                 </FormControl>
-                <FormControl className={classes.formControl}>
+                <FormControl className={classes.formControl} style={{marginLeft: "8px"}}>
                   <InputLabel id="demo-simple-select-label">Year</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"

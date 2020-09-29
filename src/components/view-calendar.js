@@ -8,8 +8,9 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { ViewState, EditingState, GroupingState, IntegratedEditing, IntegratedGrouping } from '@devexpress/dx-react-scheduler';
 import {
@@ -80,6 +81,11 @@ const styles = ({ palette }) => ({
   },
   sub: {
     marginTop: '5px'
+  },
+  pos: {
+    height: '50px',
+    margin: '10px',
+    float: 'left'
   }
 });
 
@@ -121,7 +127,7 @@ const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
 }) => (
   <Appointments.AppointmentContent {...restProps} formatDate={formatDate} data={data}>
     <div className={classes.container}>
-      <div className={classes.textContainer}>
+      {/* <div className={classes.textContainer}>
         <div className={classes.time}>
           {formatDate(data.startDate.toString(), { hour: 'numeric', minute: 'numeric' })}
         </div>
@@ -131,7 +137,7 @@ const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
         <div className={classes.time}>
           {formatDate(data.endDate.toString(), { hour: 'numeric', minute: 'numeric' })}
         </div>
-      </div>
+      </div> */}
       {/* Grade, Subject, Teacher */}
       <div className={classes.title}>
         {data.grade + '  ' + data.subject.name + '  ' + data.teacher.name}
@@ -150,7 +156,21 @@ const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
   </Appointments.AppointmentContent>
 ));
 
+const AppointmentBase = ({
+  data,
+  handleChange,
+  ...restProps
+}) => (
+  <React.Fragment>
+    <Appointments.Appointment
+      {...restProps} data={data} onClick={(data)=>(handleChange(data.data))} 
+    ></Appointments.Appointment>
+  </React.Fragment>
+);
+
 const isWeekOrMonthView = viewName => viewName === 'Day' || viewName === 'Week' || viewName === 'Month';
+
+const Appointment = withStyles(styles, { name: 'Appointment' })(AppointmentBase);
 
 class ViewCalendar extends Component {
   constructor(props) {
@@ -168,7 +188,8 @@ class ViewCalendar extends Component {
       // {
       //   resourceName: 'teacherId',
       // }
-      ]
+      ],
+      students: [],
     };
 
     this.currentViewNameChange = (currentViewName) => {
@@ -179,6 +200,8 @@ class ViewCalendar extends Component {
     this.retrieveTeachers = this.retrieveTeachers.bind(this);
     this.searchTeacher = this.searchTeacher.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.myAppointment = this.myAppointment.bind(this);
   }
 
   componentDidMount() {
@@ -242,9 +265,24 @@ class ViewCalendar extends Component {
     this.retrieveTutorials();
   }
 
+  handleClick(obj) {
+    this.setState({ 
+      students: obj.students 
+    });
+  }
+
+  myAppointment(props) {
+    return (
+      <Appointment
+        {...props}
+        handleChange={this.handleClick}
+      />
+    );
+  }
+
   render() {
     const { classes } = this.props;
-    const { tutorials, teachers, valueTeacher, currentViewName, grouping } = this.state;
+    const { tutorials, teachers, valueTeacher, currentViewName, grouping, students } = this.state;
     
     return (
       <>
@@ -261,26 +299,35 @@ class ViewCalendar extends Component {
               justify="flex-end"
               className={classes.sub}
             >
-              <FormControl className={classes.flexibleSpace}>
-              <InputLabel id="demo-simple-select-label">Teacher</InputLabel>
+              {students && students.map((student, index) => (
+                <Card className={classes.pos}>
+                <CardContent>
+                <Typography >
+                  {student.name}
+                </Typography>
+                </CardContent>
+              </Card>
+              ))}
 
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select-outlined"
-                value={valueTeacher}
-                onChange={this.handleChange}
-                label="Filter By Teacher"
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {teachers &&
-                teachers.map((teacher, index) => (
-                  <MenuItem value={teacher.id} >{teacher.name}</MenuItem>
-                ))}
-              </Select>
-              
-            </FormControl>
+              <FormControl className={classes.flexibleSpace}>
+                <InputLabel id="demo-simple-select-label">Teacher</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select-outlined"
+                  value={valueTeacher}
+                  onChange={this.handleChange}
+                  label="Filter By Teacher"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {teachers &&
+                  teachers.map((teacher, index) => (
+                    <MenuItem value={teacher.id} >{teacher.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
             </Grid>
 
             <ViewState
@@ -311,6 +358,7 @@ class ViewCalendar extends Component {
             <MonthView />
 
             <Appointments
+              appointmentComponent={this.myAppointment}
               appointmentContentComponent={AppointmentContent}
             />
             

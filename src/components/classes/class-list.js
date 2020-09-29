@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-
+import { DataGrid } from '@material-ui/data-grid';
 import MaterialTable from 'material-table';
 
 import { formatDateToString, weekday, roomNums } from '../../resources';
@@ -35,13 +35,13 @@ function renameKey ( obj ) {
 }
 
 const columns = [
-  { title: 'Year', field: 'grade' },
+  { title: 'Year', field: 'grade', width: 70 },
   { title: 'Subject', field: 'subject' },
-  { title: 'Day', field: 'day' },
+  { title: 'Day', field: 'day', width: 90 },
   { title: 'Start Time', field: 'startTime' },
   { title: 'End Time', field: 'endTime' },
   { title: 'Teacher', field: 'teacher' },
-  { title: 'Type', field: 'type' },
+  { title: 'Type', field: 'type', width: 80 },
   { title: 'Number of Students', field: 'students.length' },
   { title: 'Room', field: 'roomNum' },
   { title: 'Notes', field: 'notes' },
@@ -118,7 +118,7 @@ class TutorialList extends Component {
         alignItems="flex-start"
         className={classes.root}
       >
-        <Paper>
+        {/* <Paper>
           <Grid container>
             <Grid item>
               <MaterialTable
@@ -136,7 +136,11 @@ class TutorialList extends Component {
               />
             </Grid>
           </Grid>
-        </Paper>
+        </Paper> */}
+
+        <div style={{ height: 650, width: '100%' }}>
+          <DataGrid rows={tutorials} columns={columns} pageSize={10} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
+        </div>
 
         <div className={classes.sub}>
           {currentTutorial ? (
@@ -148,8 +152,7 @@ class TutorialList extends Component {
               <Button variant="contained" color="secondary" size="small">Edit</Button>
             </Link>
           ) : (
-            <>
-            </>
+            <></>
           )}
           <Button variant="contained" color="default" size="small" onClick={this.removeAllTutorials}> 
             Remove All

@@ -127,8 +127,11 @@ export default class App extends React.PureComponent {
 
       <div>
         <Switch>
-            <Route exact path={["/", "/login"]} component={LogIn} />
-            <Route exact path={["/view-calendar"]} component={ViewCalendar} />
+            {currentUser ? (
+              <Route exact path={["/", "/view-calendar"]} component={ViewCalendar} />
+            ):(
+              <Route exact path={["/", "/login"]} component={LogIn} />
+            )}
             <Grid
               container
               justify="center"
