@@ -21,7 +21,10 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
+
+import { DataGrid } from '@material-ui/data-grid';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
