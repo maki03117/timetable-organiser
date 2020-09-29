@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, MuiPickersUtilsProvider, } from "@material-ui/pickers";
+import Typography from '@material-ui/core/Typography';
 import { DataGrid } from '@material-ui/data-grid';
 
 import { formatDateToString, weekday, roomNums } from '../../resources';
@@ -244,6 +245,9 @@ class FeeList extends Component {
             }}
           />
         </Grid> */}
+        <Typography className={classes.pos} color="textSecondary">
+          Please Select ONE Student
+        </Typography>
         <div style={{ height: 350, width: '800px' }}>
           <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
         </div>
@@ -253,6 +257,9 @@ class FeeList extends Component {
             justify="center"
             className={classes.sub}
           >
+            <Typography className={classes.pos} color="textSecondary">
+              {currentStudent.name}'s Tuitions
+            </Typography>
             <div style={{ height: 650, width: 1060 }}>
               <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={5} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
             </div>
