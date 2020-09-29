@@ -153,7 +153,7 @@ class TutorialList extends Component {
         <div className={classes.sub}>
           {currentTutorial ? (
             <Link
-              to={"/tutorials/" + currentTutorial.id}
+              to={"/classes/" + currentTutorial.id}
               className={classes.link}
               style={{ textDecoration: 'none', color: 'white' }}
             >
@@ -166,7 +166,7 @@ class TutorialList extends Component {
             Remove All
           </Button>
           <Link
-            to={"/add-tutorial"}
+            to={"/add-class"}
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <Button color="primary" variant="contained" size="small" onClick={this.newTutorial}>
