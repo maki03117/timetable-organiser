@@ -246,7 +246,7 @@ class FeeList extends Component {
           />
         </Grid> */}
         <div style={{ height: 350, width: '800px' }}>
-          <DataGrid rows={students} columns={columns} pageSize={10} onRowClick={((row)=>this.setActiveStudent(row.data))} />
+          <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
         </div>
         {tutorials ? (
           <Grid 

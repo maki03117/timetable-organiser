@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import TutorialDataService from "../../services/class.service";
+import TutorialDataService from "../../services/tutorial.service";
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
-import MaterialTable from 'material-table';
 
 import { formatDateToString, weekday, roomNums } from '../../resources';
 
 const styles = theme => ({
   root: {
-    width: '1500px',
+    width: '1350px',
     margin: '20px'
   },
   sub: {
@@ -22,6 +20,15 @@ const styles = theme => ({
     },
   }
 })
+
+function studentsName( students ) {
+  var str = "";
+  for (var i = 0; i < students.length; i++){
+    str += students[i].name;
+    str += ' ';
+  }
+  return str;
+}
 
 function renameKey ( obj ) {
   const start = new Date(obj.startDate);
@@ -32,19 +39,20 @@ function renameKey ( obj ) {
   obj["subject"] = obj.subject.name;
   obj["teacher"] = obj.teacher.name;
   obj["roomNum"] = roomNums[obj.roomNum];
+  obj["studentsName"] = studentsName( obj.students );
 }
 
 const columns = [
   { headerName: 'Year', field: 'grade', width: 70 },
   { headerName: 'Subject', field: 'subject' },
-  { headerName: 'Day', field: 'day', width: 90 },
+  { headerName: 'Day', field: 'day', width: 100 },
   { headerName: 'Start Time', field: 'startTime' },
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
   { headerName: 'Type', field: 'type', width: 80 },
-  { headerName: 'Number of Students', field: 'students.length' },
+  { headerName: 'Students', field: 'studentsName', width: 400 },
   { headerName: 'Room', field: 'roomNum' },
-  { headerName: 'Notes', field: 'notes' },
+  { headerName: 'Notes', field: 'notes', width: 180 },
 ];
 
 class TutorialList extends Component {
@@ -139,13 +147,13 @@ class TutorialList extends Component {
         </Paper> */}
 
         <div style={{ height: 650, width: '100%' }}>
-          <DataGrid rows={tutorials} columns={columns} pageSize={10} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
+          <DataGrid rows={tutorials} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
         </div>
 
         <div className={classes.sub}>
           {currentTutorial ? (
             <Link
-              to={"/classes/" + currentTutorial.id}
+              to={"/tutorials/" + currentTutorial.id}
               className={classes.link}
               style={{ textDecoration: 'none', color: 'white' }}
             >
@@ -158,7 +166,7 @@ class TutorialList extends Component {
             Remove All
           </Button>
           <Link
-            to={"/add-class"}
+            to={"/add-tutorial"}
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <Button color="primary" variant="contained" size="small" onClick={this.newTutorial}>

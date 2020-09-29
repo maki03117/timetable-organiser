@@ -132,7 +132,7 @@ class StudentList extends Component {
           </Grid>
         </Paper> */}
         <div style={{  height: 650, width: '100%' }}>
-          <DataGrid rows={students} columns={columns} pageSize={10} onRowClick={((row)=>this.setActiveStudent(row.data))} />
+          <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
           <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
             <Alert severity="error" onClose={this.handleClose}>{this.state.message}</Alert>
           </Snackbar>
