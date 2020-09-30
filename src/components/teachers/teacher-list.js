@@ -106,7 +106,7 @@ class TeacherList extends Component {
                 <Table className={classes.table} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Teacher Name</TableCell>
+                      <TableCell>Name</TableCell>
                       <TableCell align="right">Contact</TableCell>
                       <TableCell align="right">Address</TableCell>
                       <TableCell align="right">Notes</TableCell>
