@@ -1,12 +1,3 @@
-export function studentsName( students ) {
-  var str = "";
-  for (var i = 0; i < students.length; i++){
-    str += students[i].name;
-    str += ' ';
-  }
-  return str;
-}
-
 export const appointments = [
   {
     id: 0,
