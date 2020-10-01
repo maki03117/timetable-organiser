@@ -407,7 +407,7 @@ class Tutorial extends Component {
 
   render() {
     const { classes } = this.props;
-    const { startDate, endDate, subjects, teachers, students, currentTutorial, done, open } = this.state;
+    const { startDate, endDate, subjects, teachers, students, currentTutorial, done, open, value } = this.state;
 
     return (
       <div >
