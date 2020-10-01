@@ -52,7 +52,7 @@ class TeacherList extends Component {
     TeacherDataService.getAll()
       .then(response => {
         this.setState({
-            teachers: response.data
+          teachers: response.data
         });
         console.log(response.data);
       })

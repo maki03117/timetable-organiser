@@ -230,27 +230,15 @@ class FeeList extends Component {
         alignItems="flex-start"
         className={classes.root}
       >
-        {/* <Grid item className={classes.sub}>
-          <MaterialTable
-            title="Select Student"
-            columns={columns}
-            data={students}
-            onRowClick={((evt, selectedRow) => this.setActiveStudent(selectedRow))}
-            options={{
-              grouping: true,
-              pageSize: 5,
-              rowStyle: rowData => ({
-                backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
-              })
-            }}
-          />
-        </Grid> */}
-        <Typography className={classes.pos} color="textSecondary">
-          Please Select ONE Student
-        </Typography>
-        <div style={{ height: 350, width: '800px' }}>
-          <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
-        </div>
+        <Grid item className={classes.sub}>
+          <Typography className={classes.pos} color="textSecondary">
+            Please Select ONE Student
+          </Typography>
+          <div style={{ height: 350, width: '1000px' }}>
+            <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
+          </div>
+        </Grid>
+        
         {tutorials ? (
           <Grid 
             item
