@@ -1,10 +1,11 @@
-import {
-  red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange
-} from '@material-ui/core/colors';
-import TutorialDataService from "./services/class.service";
-
-
-// export const appointments = retrieveTutorials();
+export function studentsName( students ) {
+  var str = "";
+  for (var i = 0; i < students.length; i++){
+    str += students[i].name;
+    str += ' ';
+  }
+  return str;
+}
 
 export const appointments = [
   {
