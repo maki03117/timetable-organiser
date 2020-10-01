@@ -12,6 +12,7 @@ import { formatDateToString, weekday, roomNums } from '../../resources';
 const styles = theme => ({
   root: {
     width: '100%',
+    margin: '20px'
   },
   sub: {
     '& > *': {
