@@ -184,7 +184,7 @@ class Teacher extends Component {
                   <TextField
                     id="teacher-name" 
                     label="Teacher"
-                    placeholder={currentTeacher.name}
+                    defaultValue={currentTeacher.name}
                     margin="normal"
                     InputLabelProps={{
                       shrink: true,
@@ -198,7 +198,7 @@ class Teacher extends Component {
                   <TextField
                     id="Teacher-phoneNum" 
                     label="Teacher Phone Number"
-                    placeholder={currentTeacher.phoneNum}
+                    defaultValue={currentTeacher.phoneNum}
                     margin="normal"
                     InputLabelProps={{
                       shrink: true,
@@ -212,7 +212,7 @@ class Teacher extends Component {
                   <TextField
                     id="Teacher-address" 
                     label="Teacher Address"
-                    placeholder={currentTeacher.address}
+                    defaultValue={currentTeacher.address}
                     margin="normal"
                     InputLabelProps={{
                       shrink: true,
@@ -225,7 +225,7 @@ class Teacher extends Component {
                   <TextField
                     id="Teacher-notes"
                     label="Notes"
-                    placeholder={currentTeacher.notes}
+                    defaultValue={currentTeacher.notes}
                     multiline
                     rows={3}
                     variant="outlined"

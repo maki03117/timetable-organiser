@@ -142,7 +142,7 @@ class Subject extends Component {
                   <TextField
                     id="subject-input" 
                     label="Subject"
-                    placeholder={currentSubject.name}
+                    defaultValue={currentSubject.name}
                     margin="normal"
                     InputLabelProps={{
                       shrink: true,

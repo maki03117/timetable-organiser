@@ -11,7 +11,7 @@ import { formatDateToString, weekday, roomNums } from '../../resources';
 
 const styles = theme => ({
   root: {
-    width: '1350px',
+    width: '100%',
     margin: '20px'
   },
   sub: {
@@ -25,7 +25,7 @@ function studentsName( students ) {
   var str = "";
   for (var i = 0; i < students.length; i++){
     str += students[i].name;
-    str += ' ';
+    str += ', ';
   }
   return str;
 }
@@ -37,22 +37,26 @@ function renameKey ( obj ) {
   obj["startTime"] = formatDateToString(start);//start.getHours().toString()+":"+start.getMinutes().toString();
   obj["endTime"] = formatDateToString(end);//end.getHours().toString()+":"+end.getMinutes().toString();
   obj["subject"] = obj.subject.name;
-  obj["teacher"] = obj.teacher.name;
+  if(obj.teacher == null) {
+    obj["teacher"] = "Unknown";
+  } else {
+    obj["teacher"] = obj.teacher.name;
+  }
   obj["roomNum"] = roomNums[obj.roomNum];
   obj["studentsName"] = studentsName( obj.students );
 }
 
 const columns = [
   { headerName: 'Year', field: 'grade', width: 70 },
-  { headerName: 'Subject', field: 'subject' },
+  { headerName: 'Subject', field: 'subject', width: 120 },
   { headerName: 'Day', field: 'day', width: 100 },
   { headerName: 'Start Time', field: 'startTime' },
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
   { headerName: 'Type', field: 'type', width: 80 },
-  { headerName: 'Students', field: 'studentsName', width: 400 },
-  { headerName: 'Room', field: 'roomNum' },
-  { headerName: 'Notes', field: 'notes', width: 180 },
+  { headerName: 'Students', field: 'studentsName', width: 350 },
+  { headerName: 'Room', field: 'roomNum', width: 90 },
+  { headerName: 'Notes', field: 'notes', width: 550 },
 ];
 
 class TutorialList extends Component {

@@ -202,7 +202,7 @@ class Student extends Component {
                   <TextField
                     id="Student-name" 
                     label="Student"
-                    placeholder={currentStudent.name}
+                    defaultValue={currentStudent.name}
                     margin="normal"
                     InputLabelProps={{
                       shrink: true,
@@ -238,7 +238,7 @@ class Student extends Component {
                   <TextField
                     id="Student-phoneNum" 
                     label="Student Phone Number"
-                    placeholder={currentStudent.phoneNum}
+                    defaultValue={currentStudent.phoneNum}
                     margin="normal"
                     InputLabelProps={{
                       shrink: true,
@@ -252,7 +252,7 @@ class Student extends Component {
                   <TextField
                     id="Student-address" 
                     label="Student Address"
-                    placeholder={currentStudent.address}
+                    defaultValue={currentStudent.address}
                     margin="normal"
                     InputLabelProps={{
                       shrink: true,
@@ -266,7 +266,7 @@ class Student extends Component {
                   <TextField
                     id="student-notes"
                     label="Notes"
-                    placeholder={currentStudent.notes}
+                    defaultValue={currentStudent.notes}
                     multiline
                     rows={3}
                     variant="outlined"

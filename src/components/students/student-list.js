@@ -13,7 +13,7 @@ import { DataGrid } from '@material-ui/data-grid';
 
 const styles = theme => ({
   root: {
-    width: '800px',
+    width: '1000px',
     margin: '20px'
   },
   sub: {
@@ -27,8 +27,8 @@ const columns = [
   { headerName: 'Name', field: 'name' },
   { headerName: 'Year', field: 'grade' },
   { headerName: 'Contact', field: 'phoneNum', width: 150},
-  { headerName: 'Address', field: 'address', width: 250 },
-  { headerName: 'Notes', field: 'notes', width: 200 },
+  { headerName: 'Address', field: 'address', width: 300 },
+  { headerName: 'Notes', field: 'notes', width: 300 },
 ];
 
 

@@ -550,7 +550,7 @@ class Tutorial extends Component {
                   <TextField
                     id="Tutorial-notes"
                     label="Notes"
-                    placeholder={currentTutorial.notes}
+                    defaultValue={currentTutorial.notes}
                     multiline
                     rows={3}
                     variant="outlined"
