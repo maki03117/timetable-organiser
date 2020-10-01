@@ -31,21 +31,21 @@ const columns = [
   { headerName: 'Name', field: 'name' },
   { headerName: 'Year', field: 'grade' },
   { headerName: 'Contact', field: 'phoneNum', width: 150},
-  { headerName: 'Address', field: 'address', width: 250 },
-  { headerName: 'Notes', field: 'notes', width: 200 },
+  { headerName: 'Address', field: 'address', width: 300 },
+  { headerName: 'Notes', field: 'notes', width: 300 },
 ];
 
 const columnsOfClasses = [
   { headerName: 'Year', field: 'grade', width: 70 },
-  { headerName: 'Subject', field: 'subject' },
+  { headerName: 'Subject', field: 'subject', width: 110 },
   { headerName: 'Day', field: 'day', width: 100 },
   { headerName: 'Start Time', field: 'startTime' },
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
   { headerName: 'Type', field: 'type', width: 80 },
-  { headerName: 'Room', field: 'roomNum' },
-  { headerName: 'Notes', field: 'notes', width: 200 },
-  { headerName: 'Fee', field: 'fee' }
+  { headerName: 'Students', field: 'studentsName', width: 350 },
+  { headerName: 'Room', field: 'roomNum', width: 90 },
+  { headerName: 'Notes', field: 'notes', width: 550 },
 ];
 
 function renameKey ( obj ) {
@@ -234,7 +234,7 @@ class FeeList extends Component {
           <Typography className={classes.pos} color="textSecondary">
             Please Select ONE Student
           </Typography>
-          <div style={{ height: 350, width: '1000px' }}>
+          <div style={{ height: 650, width: '1000px' }}>
             <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
           </div>
         </Grid>
@@ -248,7 +248,7 @@ class FeeList extends Component {
             <Typography className={classes.pos} color="textSecondary">
               {currentStudent.name}'s Tuitions
             </Typography>
-            <div style={{ height: 650, width: 1060 }}>
+            <div style={{ height: 400, width: 1060 }}>
               <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={5} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
             </div>
           </Grid>
@@ -265,19 +265,11 @@ class FeeList extends Component {
         style={{marginBottom: "20px"}}
       >
       <Grid item>
-        <Paper>
-          <ListSubheader component="div" id="nested-list-subheader">
-            Please Select A Month
-          </ListSubheader>
-        </Paper>
         <Paper className={classes.sub}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
-              autoOk
-              disableToolbar={true}
-              orientation="landscape"
-              variant="static"
-              openTo="date"
+              views={["month"]}
+              label="Please Select A Month"
               value={date}
               onChange={(date) => this.dateChange(date)}
             />
