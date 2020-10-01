@@ -77,7 +77,10 @@ function findFee(tutorial) {
       "Private": 35
     }
   } else {
-    return "?";
+    fee = {
+      "Group": 40,
+      "Private": 40
+    }
   }
   return fee[tutorial.type];
 }

@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
 
-import { studentsName, formatDateToString, weekday, roomNums } from '../../resources';
+import { formatDateToString, weekday, roomNums } from '../../resources';
 
 const styles = theme => ({
   root: {
