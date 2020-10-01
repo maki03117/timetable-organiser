@@ -43,8 +43,13 @@ const columnsOfClasses = [
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
   { headerName: 'Type', field: 'type', width: 80 },
-  { headerName: 'Notes', field: 'notes', width: 550 },
-  { headerName: 'Fee', field: 'fee' },
+  { headerName: 'Notes', field: 'notes', width: 520 },
+  { 
+    headerName: 'Fee', 
+    field: 'fee', 
+    valueGetter: (params) =>
+      `${'£'} ${params.getValue('fee')}`, 
+  },
   { headerName: 'Room', field: 'roomNum', width: 90 },
 ];
 
@@ -61,7 +66,7 @@ function renameKey ( obj ) {
     obj["teacher"] = obj.teacher.name;
   }
   obj["roomNum"] = roomNums[obj.roomNum];
-  obj["fee"] = "£" + findFee(obj);
+  obj["fee"] = findFee(obj);
 }
 
 function findFee(tutorial) {
@@ -93,6 +98,8 @@ class FeeList extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.findTotalFee = this.findTotalFee.bind(this);
+    this.handleSelectionsChange = this.handleSelectionsChange.bind(this); 
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       students: [],
@@ -103,7 +110,9 @@ class FeeList extends Component {
       tutorials: null,
       message: "",
       week: "",
-      month: ""
+      month: "",
+      tutorialsToChange: null,
+      show: false
     };
   }
 
@@ -187,51 +196,69 @@ class FeeList extends Component {
   }
 
   findTotalFee() {
-  const arrOfOccurrenceDays = this.occurrenceDays();
+    const arrOfOccurrenceDays = this.occurrenceDays();
+    const tutorials = this.state.tutorials;
+    var weeklyTotal = 0;
+    var monthlyTotal = 0;
 
-  var fee;
-  if (this.state.currentStudent.grade <= 'Y9') {
-    fee = {
-      "Group": 20,
-      "Private": 30
+    // Calculate the total of fees for a week
+    for (var i = 0; i < tutorials.length; i++) {
+      weeklyTotal += tutorials[i].fee;
+      monthlyTotal += tutorials[i].fee * arrOfOccurrenceDays[new Date(tutorials[i].startDate).getDay()];
     }
-  } else if (this.state.currentStudent.grade <= 'Y11') {
-    fee = {
-      "Group": 23,
-      "Private": 35
-    }
-  } else {
     this.setState({
-      message: "Unknown Fees",
+      open: true,
+      week: "£"+weeklyTotal,
+      month: "£"+monthlyTotal
     });
     return;
   }
-  const tutorials = this.state.tutorials;
-  var weeklyTotal = 0;
-  var monthlyTotal = 0;
 
-  // Calculate the total of fees for a week
-  for (var i = 0; i < tutorials.length; i++) {
-    weeklyTotal += fee[tutorials[i].type];
-    monthlyTotal += fee[tutorials[i].type] * arrOfOccurrenceDays[new Date(tutorials[i].startDate).getDay()];
+  handleSelectionsChange(data) {
+    this.setState({
+      tutorialsToChange: data,
+      show: true
+    });
   }
-  this.setState({
-    open: true,
-    week: "£"+weeklyTotal,
-    month: "£"+monthlyTotal
-  });
-  return;
-}
+
+  handleChange() {
+    var fee;
+    if (this.state.currentStudent.grade <= 'Y9') {
+      fee = {
+        "Group": 17,
+        "Private": 27
+      }
+    } else if (this.state.currentStudent.grade <= 'Y11') {
+      fee = {
+        "Group": 20,
+        "Private": 33
+      }
+    } else {
+      fee = {
+        "Group": 37,
+        "Private": 37
+      }
+      return;
+    }
+    var currentTutorials = this.state.tutorials;
+    const tutorialsToChange = this.state.tutorialsToChange;
+    console.log(tutorialsToChange);
+    for (var i = 0; i < tutorialsToChange.length; i++) {
+      currentTutorials.find(x => x.id === tutorialsToChange[i].id).fee = fee[tutorialsToChange[i].type];
+    }
+    this.setState({
+      tutorials: currentTutorials
+    });
+  }
 
   render() {
     const { classes } = this.props;
-    const { students, currentStudent, tutorials, open, date } = this.state;
+    const { students, currentStudent, tutorials, open, date, show } = this.state;
 
     return (
       <>
       <Grid
         container
-        item
         direction="row"
         justify="center"
         alignItems="flex-start"
@@ -249,15 +276,19 @@ class FeeList extends Component {
         {tutorials ? (
           <Grid 
             item
-            justify="center"
             className={classes.sub}
           >
             <Typography className={classes.pos} color="textSecondary">
               {currentStudent.name}'s Tuitions
             </Typography>
             <div style={{ height: 400, width: 1300 }}>
-              <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={5} rowsPerPageOptions={[5, 10, 20]} />
+              <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={5} rowsPerPageOptions={[5, 10, 20]} checkboxSelection onSelectionChange={(obj)=>(this.handleSelectionsChange(obj.rows))} />
             </div>
+            {show ? (
+              <Button variant="contained" color="secondary" size="small" onClick={this.handleChange} style={{float: 'right'}}>Deduct</Button>
+            ):(
+              <></>
+            )}
           </Grid>
         ):(
           <></>

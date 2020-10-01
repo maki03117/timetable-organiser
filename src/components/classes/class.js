@@ -23,6 +23,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 
 import { DataGrid } from '@material-ui/data-grid';
 
@@ -35,16 +38,12 @@ import {
 import { grades, types } from '../../resources';
 
 const columns = [
-  { title: 'Name', field: 'name' },
-  { title: 'Year', field: 'grade' },
-  { title: 'Notes', field: 'notes' },
+  { headerName: 'Name', field: 'name' },
+  { headerName: 'Year', field: 'grade' },
+  { headerName: 'Notes', field: 'notes', width: 380 },
 ];
 
 const styles = theme => ({
-  root: {
-     margin: '20px',
-     padding: '10px',
-  },
   sub: {
     '& > *': {
       margin: theme.spacing(1),
@@ -61,7 +60,12 @@ const styles = theme => ({
       margin: theme.spacing(1),
     },
     marginTop: '10px',
-  }
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+  },
 })
 
 const timeConverter = (date) => {
@@ -97,6 +101,7 @@ class Tutorial extends Component {
     this.handleSelectionChange = this.handleSelectionChange.bind(this);
     this.handleSelectionsChange = this.handleSelectionsChange.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     this.addStudent = this.addStudent.bind(this);
     this.removeStudent = this.removeStudent.bind(this);
@@ -107,7 +112,7 @@ class Tutorial extends Component {
       currentTutorial: {
         id: null,
         grade: "",
-        type:  "",
+        type:  "Private",
         roomNum: 0,
         notes: "",
         subjectId: 0,
@@ -127,7 +132,8 @@ class Tutorial extends Component {
       studentIdToBeAdded: [],
       studentsToBeRemoved: [],
       studentsToBeAdded: [],
-      goBack: false
+      goBack: false,
+      value: null
     };
   }
 
@@ -379,6 +385,12 @@ class Tutorial extends Component {
     });
   }
 
+  handleChange (panel) {
+    this.setState({
+      value: panel
+    });
+  };
+
   addStudent() {
     var temp = this.state.selectedRows;
     this.setState({
@@ -398,11 +410,11 @@ class Tutorial extends Component {
     const { startDate, endDate, subjects, teachers, students, currentTutorial, done, open } = this.state;
 
     return (
-      <div className={classes.root}>
+      <div >
         <Grid
           container
           direction="column"
-          justify="flex-start"
+          justify="center"
           alignItems="flex-start"
           className={classes.sub}
         >
@@ -416,9 +428,10 @@ class Tutorial extends Component {
           </Link>
           {currentTutorial ? (
             <Paper className={classes.sub}>
-              <Grid container
+              <Grid 
+                container
                 direction="column"
-                justify="flex-start"
+                justify="center"
                 alignItems="flex-start"
               >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -437,40 +450,6 @@ class Tutorial extends Component {
                     onChange={this.onChangeEndDate}
                     style={{width: "200px"}}
                   />
-                  {/* <KeyboardTimePicker
-                    margin="normal"
-                    id="startTime-picker"
-                    label="Start Time"
-                    value={startDate}
-                    onChange={this.onChangeStartDate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change time',
-                    }}
-                  />
-                  <KeyboardTimePicker
-                    margin="normal"
-                    id="endTime-picker"
-                    label="End Time"
-                    value={endDate}
-                    onChange={this.onChangeEndDate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change time',
-                    }}
-                  />
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date"
-                    
-                    value={startDate, endDate}
-                    onChange={this.onChangeStartDate, this.onChangeEndDate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  /> */}
                 </Grid>
               </MuiPickersUtilsProvider>
 
@@ -588,7 +567,6 @@ class Tutorial extends Component {
                       }
                       dense={true}
                       styles={{padding: "10px", backgroundColor: "black"}}
-                      //className={classes.root}
                     >
                     </List>
                     <Typography className={classes.pos} color="textSecondary">
@@ -610,15 +588,11 @@ class Tutorial extends Component {
                             Original: {findCurrentStudents(this.state.currentTutorial.students)}
                             {/* Current Students: {currentTutorial.students[0][0].name} */}
                           </ListSubheader>
-                        </Paper>
-                        <Paper>
                           <ListSubheader component="div" id="nested-list-subheader">
-                            Students to remove: {findCurrentStudents(this.state.studentsToBeRemoved)}
+                            Add: {findCurrentStudents(this.state.studentsToBeAdded)}
                           </ListSubheader>
-                        </Paper>
-                        <Paper>
                           <ListSubheader component="div" id="nested-list-subheader">
-                            Students to add: {findCurrentStudents(this.state.studentsToBeAdded)}
+                            Remove: {findCurrentStudents(this.state.studentsToBeRemoved)}
                           </ListSubheader>
                         </Paper>
                         </>
@@ -627,25 +601,62 @@ class Tutorial extends Component {
                       styles={{padding: "10px", backgroundColor: "black"}}
                     >
                     </List>
-                    <Typography className={classes.pos} color="textSecondary">
-                      Please Select Students
-                    </Typography>
-                    <div style={{  height: 650, width: '100%' }}>
-                      <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} checkboxSelection onSelectionChange={(obj)=>(this.handleSelectionsChange(obj.rows))} />
+                    <div>
+                      <Accordion square expanded={value === 'panel1'} onChange={()=>this.handleChange('panel1')}>
+                        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                          <Typography className={classes.heading}>Add Students</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Grid container
+                            direction="column"
+                            justify="center"
+                            alignItems="flex-start"
+                          >
+                            <Typography className={classes.pos} color="textSecondary">
+                              Please Select Students
+                            </Typography>
+                            <div style={{  height: 650, width: '100%' }}>
+                              <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} checkboxSelection onSelectionChange={(obj)=>(this.handleSelectionsChange(obj.rows))} />
+                            </div>
+                            <Grid
+                              container
+                              justify="flex-end"
+                            >
+                              <Button style={{marginTop: '10px'}} variant="contained" color="secondary" size="small" onClick={this.addStudent}>
+                                Add
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Accordion square expanded={value === 'panel2'} onChange={()=>this.handleChange('panel2')}>
+                        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+                          <Typography className={classes.heading}>Delete Students</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Grid container
+                            direction="column"
+                            justify="center"
+                            alignItems="flex-start"
+                          >
+                            <Typography className={classes.pos} color="textSecondary">
+                              Please Select Students
+                            </Typography>
+                            <div style={{  height: 650, width: '100%' }}>
+                              <DataGrid rows={currentTutorial.students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} checkboxSelection onSelectionChange={(obj)=>(this.handleSelectionsChange(obj.rows))} />
+                            </div>
+                            <Grid
+                              container
+                              justify="flex-end"
+                            >
+                              <Button style={{marginTop: '10px'}} variant="contained" color="primary" size="small" onClick={this.removeStudent}>
+                                Remove
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </AccordionDetails>
+                      </Accordion>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="flex-end"
-                      className={classes.buttonStyle}
-                    >
-                      <Button variant="outlined" color="secondary" size="small" onClick={this.addStudent}>
-                        Add
-                      </Button>
-                      <Button variant="outlined" color="primary" size="small" onClick={this.removeStudent}>
-                        Remove
-                      </Button>
-                    </Grid>
                   </ Paper>
                 )}
                 </>

@@ -23,9 +23,11 @@ const styles = theme => ({
 
 function studentsName( students ) {
   var str = "";
-  for (var i = 0; i < students.length; i++){
-    str += students[i].name;
-    str += ' ';
+  if(students != null) {
+    for (var i = 0; i < students.length; i++){
+      str += students[i].name;
+      str += ' ';
+    }
   }
   return str;
 }
