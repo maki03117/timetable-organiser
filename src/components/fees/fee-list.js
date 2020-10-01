@@ -43,9 +43,9 @@ const columnsOfClasses = [
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
   { headerName: 'Type', field: 'type', width: 80 },
+  { headerName: 'Notes', field: 'notes', width: 550 },
   { headerName: 'Students', field: 'studentsName', width: 350 },
   { headerName: 'Room', field: 'roomNum', width: 90 },
-  { headerName: 'Notes', field: 'notes', width: 550 },
 ];
 
 function renameKey ( obj ) {
@@ -55,7 +55,11 @@ function renameKey ( obj ) {
   obj["startTime"] = formatDateToString(start);
   obj["endTime"] = formatDateToString(end);
   obj["subject"] = obj.subject.name;
-  obj["teacher"] = obj.teacher.name;
+  if(obj.teacher == null) {
+    obj["teacher"] = "Unknown";
+  } else {
+    obj["teacher"] = obj.teacher.name;
+  }
   obj["roomNum"] = roomNums[obj.roomNum];
   obj["fee"] = "£" + findFee(obj);
 }
@@ -234,7 +238,7 @@ class FeeList extends Component {
           <Typography className={classes.pos} color="textSecondary">
             Please Select ONE Student
           </Typography>
-          <div style={{ height: 650, width: '1000px' }}>
+          <div style={{ height: 650, width: 1000 }}>
             <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
           </div>
         </Grid>
@@ -248,8 +252,8 @@ class FeeList extends Component {
             <Typography className={classes.pos} color="textSecondary">
               {currentStudent.name}'s Tuitions
             </Typography>
-            <div style={{ height: 400, width: 1060 }}>
-              <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={5} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
+            <div style={{ height: 400, width: 1300 }}>
+              <DataGrid rows={tutorials} columns={columnsOfClasses} pageSize={5} rowsPerPageOptions={[5, 10, 20]} />
             </div>
           </Grid>
         ):(
