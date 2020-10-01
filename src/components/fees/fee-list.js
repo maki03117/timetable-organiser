@@ -44,6 +44,7 @@ const columnsOfClasses = [
   { headerName: 'Teacher', field: 'teacher' },
   { headerName: 'Type', field: 'type', width: 80 },
   { headerName: 'Notes', field: 'notes', width: 550 },
+  { headerName: 'Fee', field: 'fee' },
   { headerName: 'Room', field: 'roomNum', width: 90 },
 ];
 
