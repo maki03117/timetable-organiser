@@ -13,7 +13,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 const styles = theme => ({
   root: {
-    margin: '20px'
+    margin: '10px'
   },
   sub: {
     '& > * .MuiTextField-root': {

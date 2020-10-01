@@ -13,8 +13,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
-    margin: '20px',
-    padding: '20px',
+    margin: '10px',
+    //padding: '20px',
     '& > * .MuiTextField-root': {
       margin: theme.spacing(1),
     },

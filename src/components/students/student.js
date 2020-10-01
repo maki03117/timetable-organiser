@@ -18,11 +18,11 @@ import { grades } from '../../resources';
 
 const styles = theme => ({
   root: {
-    margin: '20px',
-    padding: '20px',
+    margin: '10px',
+    //padding: '20px',
     '& > * .MuiTextField-root': {
-     margin: theme.spacing(1),
-   },
+      margin: theme.spacing(1),
+    },
  },
  sub: {
    '& > * ': {
@@ -179,7 +179,7 @@ class Student extends Component {
         <Grid
           container
           direction="column"
-          justify="flex-start"
+          justify="center"
           alignItems="flex-start"
           className={classes.sub}
         >
@@ -193,9 +193,10 @@ class Student extends Component {
           </Link>
           {currentStudent ? (
             <Paper className={classes.sub}>
-              <Grid container
+              <Grid 
+                container
                 direction="column"
-                justify="flex-start"
+                justify="center"
                 alignItems="flex-start"
               >
                 <FormControl style={{width: '500px'}}>

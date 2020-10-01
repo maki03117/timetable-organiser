@@ -18,7 +18,7 @@ import { grades } from '../../resources';
 
 const styles = theme => ({
   root: {
-    margin: '20px'
+    margin: '10px'
   },
   sub: {
     '& > * .MuiTextField-root': {
