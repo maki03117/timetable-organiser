@@ -39,7 +39,7 @@ const columnsOfClasses = [
   { headerName: 'Year', field: 'grade', width: 70 },
   { headerName: 'Subject', field: 'subject', width: 120 },
   { headerName: 'Day', field: 'day', width: 100 },
-  { headerName: 'Date', field: 'startDate', width: 100 },
+  { headerName: 'Date', field: 'startDate', width: 120 },
   { headerName: 'Start Time', field: 'startTime' },
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
