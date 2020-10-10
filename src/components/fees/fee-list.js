@@ -39,6 +39,7 @@ const columnsOfClasses = [
   { headerName: 'Year', field: 'grade', width: 70 },
   { headerName: 'Subject', field: 'subject', width: 120 },
   { headerName: 'Day', field: 'day', width: 100 },
+  { headerName: 'Date', field: 'startDate', width: 100 },
   { headerName: 'Start Time', field: 'startTime' },
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
@@ -57,6 +58,7 @@ function renameKey ( obj ) {
   var start = new Date(obj.startDate);
   var end = new Date(obj.endDate);
   obj["day"] = weekday[start.getDay()];
+  obj["startDate"] = weekday[start.getDay()];
   obj["startTime"] = formatDateToString(start);
   obj["endTime"] = formatDateToString(end);
   obj["subject"] = obj.subject.name;
@@ -136,6 +138,7 @@ class FeeList extends Component {
   setActiveStudent(student) {
     const newS = student;
     newS.tutorials.forEach( obj => renameKey(obj) );
+    console.log(newS.tutorials);
     this.setState({
       currentStudent: newS,
       selectedRow: newS.id,
