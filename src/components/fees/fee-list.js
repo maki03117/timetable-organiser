@@ -58,7 +58,7 @@ function renameKey ( obj ) {
   var start = new Date(obj.startDate);
   var end = new Date(obj.endDate);
   obj["day"] = weekday[start.getDay()];
-  obj["startDate"] = weekday[start.getDay()];
+  obj["startDate"] = obj.startDate;
   obj["startTime"] = formatDateToString(start);
   obj["endTime"] = formatDateToString(end);
   obj["subject"] = obj.subject.name;
@@ -138,7 +138,7 @@ class FeeList extends Component {
   setActiveStudent(student) {
     const newS = student;
     newS.tutorials.forEach( obj => renameKey(obj) );
-    console.log(newS.tutorials);
+    console.log(newS);
     this.setState({
       currentStudent: newS,
       selectedRow: newS.id,
