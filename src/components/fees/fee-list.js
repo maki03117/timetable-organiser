@@ -58,7 +58,7 @@ function renameKey ( obj ) {
   var start = new Date(obj.startDate);
   var end = new Date(obj.endDate);
   obj["day"] = weekday[start.getDay()];
-  obj["startDate"] = obj.startDate;
+  obj["startDate"] = start.getFullYear()+"/"+(start.getMonth()+1)+"/"+start.getDate();
   obj["startTime"] = formatDateToString(start);
   obj["endTime"] = formatDateToString(end);
   obj["subject"] = obj.subject.name;
