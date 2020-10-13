@@ -6,6 +6,11 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 import { formatDateToString, weekday, roomNums } from '../../resources';
 
@@ -45,7 +50,7 @@ function renameKey ( obj ) {
     obj["teacher"] = obj.teacher.name;
   }
   obj["roomNum"] = roomNums[obj.roomNum];
-  obj["studentsName"] = studentsName( obj.students );
+  // obj["studentsName"] = studentsName( obj.students );
 }
 
 const columns = [
@@ -56,9 +61,9 @@ const columns = [
   { headerName: 'End Time', field: 'endTime' },
   { headerName: 'Teacher', field: 'teacher' },
   { headerName: 'Type', field: 'type', width: 80 },
-  { headerName: 'Students', field: 'studentsName', width: 350 },
+  // { headerName: 'Students', field: 'studentsName', width: 350 },
   { headerName: 'Room', field: 'roomNum', width: 90 },
-  { headerName: 'Notes', field: 'notes', width: 550 },
+  // { headerName: 'Notes', field: 'notes', width: 550 },
 ];
 
 class TutorialList extends Component {
@@ -132,55 +137,76 @@ class TutorialList extends Component {
         alignItems="flex-start"
         className={classes.root}
       >
-        {/* <Paper>
-          <Grid container>
-            <Grid item>
-              <MaterialTable
-                headerName="Classes"
-                columns={columns}
-                data={tutorials}
-                onRowClick={((evt, selectedRow) => this.setActiveTutorial(selectedRow))}
-                options={{
-                  grouping: true,
-                  pageSize: 10,
-                  rowStyle: rowData => ({
-                    backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
-                  })
-                }}
-              />
-            </Grid>
+        <Grid item style={{ height: 650, width: '800px' }}>
+          <Grid item style={{ height: 650, width: '100%' }}>
+            <DataGrid rows={tutorials} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
           </Grid>
-        </Paper> */}
 
-        <div style={{ height: 650, width: '100%' }}>
-          <DataGrid rows={tutorials} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveTutorial(row.data))} />
-        </div>
-
-        <div className={classes.sub}>
-          {currentTutorial ? (
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="flex-end"
+            className={classes.sub}
+          >
+            {currentTutorial ? (
+              <Link
+                to={"/classes/" + currentTutorial.id}
+                className={classes.link}
+                style={{ textDecoration: 'none', color: 'white' }}
+              >
+                <Button variant="contained" color="secondary" size="small">Edit</Button>
+              </Link>
+            ) : (
+              <></>
+            )}
+            <Button variant="contained" color="default" size="small" onClick={this.removeAllTutorials}> 
+              Remove All
+            </Button>
             <Link
-              to={"/classes/" + currentTutorial.id}
-              className={classes.link}
+              to={"/add-class"}
               style={{ textDecoration: 'none', color: 'white' }}
             >
-              <Button variant="contained" color="secondary" size="small">Edit</Button>
+              <Button color="primary" variant="contained" size="small" onClick={this.newTutorial}>
+                Add Class
+              </Button>
             </Link>
-          ) : (
-            <></>
-          )}
-          <Button variant="contained" color="default" size="small" onClick={this.removeAllTutorials}> 
-            Remove All
-          </Button>
-          <Link
-            to={"/add-class"}
-            style={{ textDecoration: 'none', color: 'white' }}
-          >
-            <Button color="primary" variant="contained" size="small" onClick={this.newTutorial}>
-              Add Class
-            </Button>
-          </Link>
-        </div>
-        
+          </Grid>
+        </Grid>
+        {currentTutorial ? (
+          <Paper className={classes.sub} style={{ width: '300px', maxWidth: 'auto', minWidth: '300px', }}>
+            <Grid 
+              item 
+            >
+              <List style={{ overflowWrap: 'break-word'  }}>
+                <ListSubheader component="div" id="nested-list-subheader">
+                  Students
+                </ListSubheader>
+                {currentTutorial.students &&
+                currentTutorial.students.map((student) => (
+                  <ListItem >
+                    <ListItemText
+                      primary={student.name}
+                    />
+                  </ListItem>
+                ))}
+                <Divider />
+                <ListSubheader component="div" id="nested-list-subheader">
+                  Notes
+                </ListSubheader>
+                <ListItem>
+                  <ListItemText
+                    primary={currentTutorial.notes}
+                  />
+                </ListItem>
+              </List>
+            </Grid>
+          </Paper>
+        ):
+        (
+          <></>
+        )
+        }
       </Grid>
     );
   }

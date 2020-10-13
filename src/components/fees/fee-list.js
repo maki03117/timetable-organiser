@@ -228,7 +228,7 @@ class FeeList extends Component {
     var fee;
     if (this.state.currentStudent.grade <= 'Y9') {
       fee = {
-        "Group": 17,
+        "Group": 18,
         "Private": 27
       }
     } else if (this.state.currentStudent.grade <= 'Y11') {

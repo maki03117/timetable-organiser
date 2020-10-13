@@ -95,6 +95,7 @@ class Tutorial extends Component {
     this.onChangeRoom = this.onChangeRoom.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
     this.onChangeNotes = this.onChangeNotes.bind(this);
+    this.onChangeTeacher = this.onChangeTeacher.bind(this);
     this.getTutorial = this.getTutorial.bind(this);
     this.updateTutorial = this.updateTutorial.bind(this);
     this.deleteTutorial = this.deleteTutorial.bind(this);
@@ -250,6 +251,17 @@ class Tutorial extends Component {
       currentTutorial: {
         ...prevState.currentTutorial,
         notes: notes
+      }
+    }));
+  }
+
+  onChangeTeacher(e) {
+    const teacher = e.target.value;
+
+    this.setState(prevState => ({
+      currentTutorial: {
+        ...prevState.currentTutorial,
+        teacherId: teacher
       }
     }));
   }

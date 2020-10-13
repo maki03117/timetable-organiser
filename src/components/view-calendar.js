@@ -339,10 +339,10 @@ class ViewCalendar extends Component {
             <EditingState
               onCommitChanges={this.commitChanges}
             />
-            <GroupingState
+            {/* <GroupingState
               grouping={grouping}
               groupByDate={isWeekOrMonthView}
-            />
+            /> */}
 
             <DayView
               startDayHour={9}
@@ -368,23 +368,23 @@ class ViewCalendar extends Component {
             <Resources
               data={[
                 {
-                  fieldName: 'roomNum',
-                  title: 'Room',
-                  instances: rooms,
+                  fieldName: 'teacherId',
+                  title: 'Teacher',
+                  instances: teachers,
                 },
               ]}
             />
 
             <IntegratedEditing />
             
-            <IntegratedGrouping />
+            {/* <IntegratedGrouping /> */}
 
             <EditRecurrenceMenu />
 
             <Toolbar />
 
             <ViewSwitcher />
-            <GroupingPanel />
+            {/* <GroupingPanel /> */}
 
           </Scheduler>
         </Paper>
