@@ -242,6 +242,7 @@ class ViewCalendar extends Component {
     const currentTeacherId = e.target.value;
     TutorialDataService.findByTutorialId(currentTeacherId)
       .then(response => {
+        response.data.forEach( obj => renameKey( obj ) );
         this.setState({
           tutorials: response.data
         });
