@@ -31,7 +31,16 @@ import {
 import { appointments, rooms, students, test } from '../resources';
 
 function renameKey ( obj ) {
-  obj["rRule"] = 'FREQ=WEEKLY';
+  const s = new Date(obj.startDate);
+  const e = new Date(obj.endDate);
+  const start = s.getFullYear() + "-" + (s.getMonth() < 10 ? '0' : '') + (s.getMonth()+1) + "-" + s.getDate();
+  const end = e.getFullYear() + "-" + (e.getMonth() < 10 ? '0' : '') + (e.getMonth()+1) + "-" + e.getDate();
+  if (start != end) {
+    obj.endDate = start + "T" + (e.getHours() < 10 ? '0' : '') + e.getHours() + ":" + (e.getMinutes() < 10 ? '0' : '') + e.getMinutes() + ":00.000";
+    obj["rRule"] = 'FREQ=WEEKLY;UNTIL='+ e.getFullYear() + (e.getMonth() < 10 ? '0' : '') + (e.getMonth()+1) + e.getDate() + "T100000";
+  }else {
+    obj["rRule"] = 'FREQ=WEEKLY';
+  }
 }
 
 
