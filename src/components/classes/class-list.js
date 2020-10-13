@@ -60,7 +60,7 @@ const columns = [
   { headerName: 'Day', field: 'day', width: 100 },
   { headerName: 'Start Time', field: 'startTime' },
   { headerName: 'End Time', field: 'endTime' },
-  { headerName: 'Teacher', field: 'teacher' },
+  { headerName: 'Teacher', field: 'teacher', width: 120 },
   { headerName: 'Type', field: 'type', width: 80 },
   // { headerName: 'Students', field: 'studentsName', width: 350 },
   { headerName: 'Room', field: 'roomNum', width: 90 },

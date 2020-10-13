@@ -255,16 +255,20 @@ class ViewCalendar extends Component {
   handleChange(e) {
     var array = this.state.teachers;
     const currentTeacherId = e.target.value;
-    for (var i = 0; i < array.length; i++) {
-      if (array[i].id === currentTeacherId) {
-        this.searchTeacher(e);
-        this.setState({
-          valueTeacher: currentTeacherId
-        });
-        return;
-      }
-    }
-    this.retrieveTutorials();
+    // for (var i = 0; i < array.length; i++) {
+    //   if (array[i].id === currentTeacherId) {
+    //     this.searchTeacher(e);
+    //     this.setState({
+    //       valueTeacher: currentTeacherId
+    //     });
+    //     return;
+    //   }
+    // }
+    this.searchTeacher(e);
+    this.setState({
+      valueTeacher: currentTeacherId
+    });
+    // this.retrieveTutorials();
   }
 
   handleClick(obj) {
@@ -293,7 +297,7 @@ class ViewCalendar extends Component {
         <Paper>
           <Scheduler
             data={tutorials}
-            height={760}
+            // height={760}
           >
 
             <Grid
