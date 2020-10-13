@@ -8,12 +8,16 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import MaterialTable from 'material-table';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import { DataGrid } from '@material-ui/data-grid';
 
 const styles = theme => ({
   root: {
-    width: '1000px',
+    width: '100%',
     margin: '20px'
   },
   sub: {
@@ -27,8 +31,8 @@ const columns = [
   { headerName: 'Name', field: 'name' },
   { headerName: 'Year', field: 'grade' },
   { headerName: 'Contact', field: 'phoneNum', width: 150},
-  { headerName: 'Address', field: 'address', width: 300 },
-  { headerName: 'Notes', field: 'notes', width: 300 },
+  // { headerName: 'Address', field: 'address', width: 300 },
+  // { headerName: 'Notes', field: 'notes', width: 300 },
 ];
 
 
@@ -104,65 +108,82 @@ class StudentList extends Component {
     return (
       <Grid
         container
-        direction="column"
-        justify="center"
+        direction="row"
+        justify="flex-start"
         alignItems="flex-start"
         className={classes.root}
       >
-        {/* <Paper>
-          <Grid container>
-            <Grid item>
-              <MaterialTable
-                title="Students"
-                columns={columns}
-                data={students}
-                onRowClick={((evt, selectedRow) => this.setActiveStudent(selectedRow))}
-                options={{
-                  grouping: true,
-                  pageSize: 10,
-                  rowStyle: rowData => ({
-                    backgroundColor: (this.state.selectedRow === rowData.id) ? '#EEE' : '#FFF'
-                  })
-                }}
-              />
-              <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
-                <Alert severity="error" onClose={this.handleClose}>{this.state.message}</Alert>
-              </Snackbar>
-            </Grid>
+        <Grid item style={{ height: 650, width: '650px' }}>
+          <Grid item style={{ height: 650, width: '100%' }}>
+            <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
+            <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
+              <Alert severity="error" onClose={this.handleClose}>{this.state.message}</Alert>
+            </Snackbar>
           </Grid>
-        </Paper> */}
-        <div style={{  height: 650, width: '100%' }}>
-          <DataGrid rows={students} columns={columns} pageSize={10} rowsPerPageOptions={[5, 10, 20]} onRowClick={((row)=>this.setActiveStudent(row.data))} />
-          <Snackbar open={open} autoHideDuration={6000} onClose={this.handleClose}>
-            <Alert severity="error" onClose={this.handleClose}>{this.state.message}</Alert>
-          </Snackbar>
-        </div>
 
-        <div className={classes.sub}>
-          {currentStudent ? (
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="flex-end"
+            className={classes.sub}
+          >
+            {currentStudent ? (
+              <Link
+                to={"/students/" + currentStudent.id}
+                className={classes.link}
+                style={{ textDecoration: 'none', color: 'white' }}
+              >
+                <Button variant="contained" color="secondary" size="small">Edit</Button>
+              </Link>
+            ) : (
+              <></>
+            )}
+            <Button variant="contained" color="default" size="small" onClick={this.removeAllStudents}> 
+              Remove All
+            </Button>
             <Link
-              to={"/students/" + currentStudent.id}
-              className={classes.link}
+              to={"add-student"}
               style={{ textDecoration: 'none', color: 'white' }}
             >
-              <Button variant="contained" color="secondary" size="small">Edit</Button>
+              <Button color="primary" variant="contained" size="small" >
+                Add Student
+              </Button>
             </Link>
-          ) : (
-            <></>
-          )}
-          <Button variant="contained" color="default" size="small" onClick={this.removeAllStudents}> 
-            Remove All
-          </Button>
-          <Link
-            to={"add-student"}
-            style={{ textDecoration: 'none', color: 'white' }}
-          >
-            <Button color="primary" variant="contained" size="small" onClick={this.newStudent}>
-              Add Student
-            </Button>
-          </Link>
-        </div>
+          </Grid>
+        </Grid>
 
+        {currentStudent ? (
+          <Paper className={classes.sub} style={{ width: '300px' }}>
+            <Grid 
+              item 
+            >
+              <List style={{ overflowWrap: 'break-word'  }}>
+                <ListSubheader component="div" id="nested-list-subheader">
+                  Address
+                </ListSubheader>
+                <ListItem>
+                  <ListItemText
+                    primary={currentStudent.address}
+                  />
+                </ListItem>
+                <Divider />
+                <ListSubheader component="div" id="nested-list-subheader">
+                  Notes
+                </ListSubheader>
+                <ListItem>
+                  <ListItemText
+                    primary={currentStudent.notes}
+                  />
+                </ListItem>
+              </List>
+            </Grid>
+          </Paper>
+        ):
+        (
+          <></>
+        )
+        }
       </Grid>
     );
   }

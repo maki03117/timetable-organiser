@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import Paper from '@material-ui/core/Paper';
 
 import { formatDateToString, weekday, roomNums } from '../../resources';
 
@@ -132,7 +133,7 @@ class TutorialList extends Component {
     return (
       <Grid
         container
-        direction="column"
+        direction="row"
         justify="flex-start"
         alignItems="flex-start"
         className={classes.root}
@@ -174,7 +175,7 @@ class TutorialList extends Component {
           </Grid>
         </Grid>
         {currentTutorial ? (
-          <Paper className={classes.sub} style={{ width: '300px', maxWidth: 'auto', minWidth: '300px', }}>
+          <Paper className={classes.sub} style={{ width: '300px'}}>
             <Grid 
               item 
             >
