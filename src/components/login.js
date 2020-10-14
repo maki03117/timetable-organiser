@@ -79,7 +79,7 @@ const Login = (props) => {
 
     AuthService.login(username, password).then(
       () => {
-        props.history.push("/view-calendar");
+        props.history.push("/");
         window.location.reload();
       },
       (error) => {

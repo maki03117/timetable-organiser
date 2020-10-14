@@ -30,16 +30,31 @@ import {
 
 import { appointments, rooms, students, test } from '../resources';
 
+const types = [{
+  id: 0,
+  text: 'Group',
+}, 
+{
+  id: 1,
+  text: 'Private',
+}]
+
 function renameKey ( obj ) {
   const s = new Date(obj.startDate);
   const e = new Date(obj.endDate);
-  const start = s.getFullYear() + "-" + (s.getMonth()+1 < 10 ? '0' : '') + (s.getMonth()+1) + "-" + s.getDate();
-  const end = e.getFullYear() + "-" + (e.getMonth()+1 < 10 ? '0' : '') + (e.getMonth()+1) + "-" + e.getDate();
+  const start = s.getFullYear() + "-" + (s.getMonth()+1 < 10 ? '0' : '') + (s.getMonth()+1) + "-" + (s.getDate() < 10 ? '0' : '') +s.getDate();
+  const end = e.getFullYear() + "-" + (e.getMonth()+1 < 10 ? '0' : '') + (e.getMonth()+1) + "-" + (e.getDate() < 10 ? '0' : '') + e.getDate();;
   if (start != end) {
     obj.endDate = start + "T" + (e.getHours() < 10 ? '0' : '') + e.getHours() + ":" + (e.getMinutes() < 10 ? '0' : '') + e.getMinutes() + ":00.000";
     obj["rRule"] = 'FREQ=WEEKLY;UNTIL='+ e.getFullYear() + (e.getMonth()+1 < 10 ? '0' : '') + (e.getMonth()+1) + (e.getDate()+1) + "T000000";
   }else {
     obj["rRule"] = 'FREQ=WEEKLY';
+  }
+
+  if (obj.type == "Private") {
+    obj["type"] = 1
+  } else {
+    obj["type"] = 0
   }
 }
 
@@ -207,48 +222,20 @@ class ViewCalendar extends Component {
       this.setState({ currentViewName });
     };
 
-    this.retrieveTutorials = this.retrieveTutorials.bind(this);
-    this.retrieveTeachers = this.retrieveTeachers.bind(this);
-    this.searchTeacher = this.searchTeacher.bind(this);
+    this.retrieveTeacher = this.retrieveTeacher.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.myAppointment = this.myAppointment.bind(this);
   }
 
   componentDidMount() {
-    this.retrieveTutorials();
-    this.retrieveTeachers();
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      this.retrieveTeacher(user.teacherId)
+    }
   }
 
-  retrieveTutorials() {
-    TutorialDataService.getAll()
-      .then(response => {
-        response.data.forEach( obj => renameKey( obj ) );
-        this.setState({
-          tutorials: response.data
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-  retrieveTeachers() {
-    TeacherDataService.getAll()
-      .then(response => {
-        this.setState({
-          teachers: response.data
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-  searchTeacher(e) {
-    const currentTeacherId = e.target.value;
+  retrieveTeacher(currentTeacherId) {
     TutorialDataService.findByTutorialId(currentTeacherId)
       .then(response => {
         response.data.forEach( obj => renameKey( obj ) );
@@ -260,25 +247,6 @@ class ViewCalendar extends Component {
       .catch(e => {
         console.log(e);
       });
-  }
-
-  handleChange(e) {
-    var array = this.state.teachers;
-    const currentTeacherId = e.target.value;
-    // for (var i = 0; i < array.length; i++) {
-    //   if (array[i].id === currentTeacherId) {
-    //     this.searchTeacher(e);
-    //     this.setState({
-    //       valueTeacher: currentTeacherId
-    //     });
-    //     return;
-    //   }
-    // }
-    this.searchTeacher(e);
-    this.setState({
-      valueTeacher: currentTeacherId
-    });
-    // this.retrieveTutorials();
   }
 
   handleClick(obj) {
@@ -324,25 +292,6 @@ class ViewCalendar extends Component {
                 </CardContent>
               </Card>
               ))}
-
-              <FormControl className={classes.flexibleSpace}>
-                <InputLabel id="demo-simple-select-label">Teacher</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select-outlined"
-                  value={valueTeacher}
-                  onChange={this.handleChange}
-                  label="Filter By Teacher"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {teachers &&
-                  teachers.map((teacher, index) => (
-                    <MenuItem value={teacher.id} >{teacher.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
 
             </Grid>
 

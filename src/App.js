@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
 
 import ViewCalendar from "./components/view-calendar";
+import ViewUserCalendar from "./components/view-user-calendar";
 
 import ClassList from "./components/classes/class-list";
 import AddClass from "./components/classes/add-class";
@@ -36,6 +37,8 @@ export default class App extends React.PureComponent {
     this.state = {
       test: 0,
       currentUser: undefined,
+      moderator: false,
+      admin: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -48,6 +51,8 @@ export default class App extends React.PureComponent {
     if (user) {
       this.setState({
         currentUser: user,
+        moderator: user.roles.includes("ROLE_MODERATOR"),
+        admin: user.roles.includes("ROLE_ADMIN")
       });
     }
   }
@@ -66,13 +71,15 @@ export default class App extends React.PureComponent {
   };
 
   render() {
-    const { currentUser } = this.state;
+    const { moderator, admin, currentUser } = this.state;
 
     return (
       <>
-      <AppBar position="static" color="default">
+      <AppBar position="static" color="default" style={{ minWidth: '1000px' }}>
         <Toolbar>
         {currentUser ? (
+          <>
+          {(moderator || admin) ? (
           <>
             <Link to={"/view-calendar"} style={{ textDecoration: 'none', color: 'black' }}>
               <Button color="inherit" style={{ width: '200px' }} >Calendar</Button>
@@ -112,7 +119,17 @@ export default class App extends React.PureComponent {
               </Button>
             </Link>
           </>
-        
+          ):(
+            <>
+              <Link to={"/view-user-calendar"} style={{ textDecoration: 'none', color: 'black' }}>
+                <Button color="inherit" style={{ width: '200px' }} >Schedule</Button>
+              </Link>
+              <Link to={"/report"} style={{ textDecoration: 'none', color: 'black', flexGrow: '1' }}>
+                <Button color="inherit" style={{ width: '200px' }} >Report</Button>
+              </Link>
+            </>
+          )}
+          </>
         ):(
           <>
             <div style={{ flexGrow: '1' }}></div>
@@ -127,11 +144,12 @@ export default class App extends React.PureComponent {
 
       <div>
         <Switch>
-            {currentUser ? (
+            {(moderator || admin) ? (
               <Route exact path={["/", "/view-calendar"]} component={ViewCalendar} />
             ):(
-              <Route exact path={["/", "/login"]} component={LogIn} />
+              <Route exact path={["/", "/view-user-calendar"]} component={ViewUserCalendar} />
             )}
+            <Route exact path={["/", "/login"]} component={LogIn} />
             <Grid
               container
               justify="center"
