@@ -225,7 +225,6 @@ class ViewCalendar extends Component {
     };
 
     this.retrieveTeacher = this.retrieveTeacher.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.myAppointment = this.myAppointment.bind(this);
   }

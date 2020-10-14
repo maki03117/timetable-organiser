@@ -26,6 +26,8 @@ import Teacher from "./components/teachers/teacher";
 
 import FeeList from "./components/fees/fee-list";
 
+import Report from "./components/report.js";
+
 import LogIn from "./components/login";
 
 import AuthService from "./services/auth.service";
@@ -171,6 +173,8 @@ export default class App extends React.PureComponent {
               <Route exact path="/subjects/:id" component={Subject} />
 
               <Route exact path="/fees" component={FeeList} />
+
+              <Route exact path="/report" component={Report} />
             </Grid>
       
         </Switch>
