@@ -28,6 +28,8 @@ import {
   ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
+import AuthService from "../services/auth.service";
+
 import { appointments, rooms, students, test } from '../resources';
 
 const types = [{
