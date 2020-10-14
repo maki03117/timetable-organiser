@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AuthService from "../services/auth.service";
 
-import { formatDateToString, weekday, roomNums } from '../../resources';
+import { formatDateToString, weekday, roomNums } from '../resources';
 
 const styles = theme => ({
   root: {
