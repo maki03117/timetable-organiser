@@ -332,9 +332,9 @@ class ViewCalendar extends Component {
             <Resources
               data={[
                 {
-                  fieldName: 'teacherId',
-                  title: 'Teacher',
-                  instances: teachers,
+                  fieldName: 'type',
+                  title: 'Type',
+                  instances: types,
                 },
               ]}
             />
