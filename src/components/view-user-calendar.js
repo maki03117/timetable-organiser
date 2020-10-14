@@ -48,7 +48,7 @@ function renameKey ( obj ) {
   const end = e.getFullYear() + "-" + (e.getMonth()+1 < 10 ? '0' : '') + (e.getMonth()+1) + "-" + (e.getDate() < 10 ? '0' : '') + e.getDate();;
   if (start != end) {
     obj.endDate = start + "T" + (e.getHours() < 10 ? '0' : '') + e.getHours() + ":" + (e.getMinutes() < 10 ? '0' : '') + e.getMinutes() + ":00.000";
-    obj["rRule"] = 'FREQ=WEEKLY;UNTIL='+ e.getFullYear() + (e.getMonth()+1 < 10 ? '0' : '') + (e.getMonth()+1) + (e.getDate()+1) + "T000000";
+    obj["rRule"] = 'FREQ=WEEKLY;UNTIL='+ e.getFullYear() + (e.getMonth()+1 < 10 ? '0' : '') + (e.getMonth()+1) + (e.getDate() < 10 ? '0' : '') + (e.getDate()+1) + "T000000";
   }else {
     obj["rRule"] = 'FREQ=WEEKLY';
   }

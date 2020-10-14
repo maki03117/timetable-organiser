@@ -115,11 +115,6 @@ export default class App extends React.PureComponent {
                 Fees
               </Button>
             </Link>
-            <Link to={"/login"} style={{ textDecoration: 'none', color: 'black' }}>
-              <Button color="primary" style={{ width: '100px' }} size="small" onClick={this.logOut}>
-                LogOut
-              </Button>
-            </Link>
           </>
           ):(
             <>
@@ -131,6 +126,11 @@ export default class App extends React.PureComponent {
               </Link>
             </>
           )}
+          <Link to={"/login"} style={{ textDecoration: 'none', color: 'black' }}>
+            <Button color="primary" style={{ width: '100px' }} size="small" onClick={this.logOut}>
+              LogOut
+            </Button>
+          </Link>
           </>
         ):(
           <>
